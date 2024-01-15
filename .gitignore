@@ -52,3 +52,4 @@ rsconnect/
 envs/
 output_rast/
 output_fig/
+raw_env/
