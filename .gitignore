@@ -49,7 +49,9 @@ po/*~
 rsconnect/
 
 
-envs/
 output_rast/
 output_fig/
-raw_env/
+climate/
+topo/
+land/
+env_processed/

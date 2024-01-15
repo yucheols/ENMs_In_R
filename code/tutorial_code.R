@@ -1,5 +1,5 @@
 #### ENMs in R tutorials ::: hands-on workshop @NJFU Lab of Animal Behaviour and Conservation ::: Feb 2024
-#### In this workshop, we will break down the key steps of running ecological niche models in the R environment
+#### In this workshop, you will learn how to implement all the necessary steps of niche modeling entirely in R
 
 #### We will use the Korean water toad (Bufo stejnegeri) as an example. This is a forest-dwelling specialist adapted to mountain streams.
 
@@ -22,5 +22,6 @@ library(ggplot2)
 #dir.create('climate')
 #dir.create('topo')
 #dir.create('land')
+#dir.create('env_processed') # to contain the processed raster layers
 
-#####  PART 1 ::: load  #####
+#####  PART 1 ::: load and prepare environmental data  #####
