@@ -52,10 +52,38 @@ print(envs)
 ### optional ::: you can choose to export the processed layers
 
 
+
 #####  PART 2 ::: occurrence data  #####
 # there are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the 
 # data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation:
 # https://github.com/brshipley/megaSDM
 
+# collect occurrence points
 megaSDM::OccurrenceCollection(spplist = c('Bufo stejnegeri'), output = 'occs',
                               trainingarea = c(124.1833, 130.9417, 33.10833, 43.00833))
+
+# now lets look at the data
+occs <- read.csv('occs/Bufo_stejnegeri.csv')
+head(occs)
+
+# since we only need the species name, longitude, and latitude, we will pull out those three columns only
+occs <- occs[, c('species', 'decimalLongitude', 'decimalLatitude')]
+colnames(occs) = c('species', 'long', 'lat')
+
+# spatially thin the occurrence points to match the spatial resolution of environmental layers
+occs <- thinData(coords = occs[, c(2,3)], env = envs, x = 'long', y = 'lat', verbose = T, progress = T)
+
+#####  PART 3 ::: background point sampling  #####
+# you can sample your backgrounds in several different ways. We will first use random sampling 
+# and will separately address spatial sampling bias correction. We will then compare the predictive outcomes of both models 
+
+# sample random background ::: use the dismo package. Make sure to install this package as well if not installed already
+bg <- dismo::randomPoints(mask = raster::raster(envs[[1]]), n = 10000,)
+
+
+
+
+
+### lets remove highly correlated layers. This can be done in several different ways in several different packages. 
+#    You may choose to use the internal SDMtune function. But this requires you to first fit a default niche model.
+#    You may or may not want to do this. Otherwise you can do something like this:
