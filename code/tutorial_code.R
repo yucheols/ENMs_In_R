@@ -17,6 +17,8 @@ library(extrafont)
 library(rasterVis)
 library(ggplot2)
 
+## Other than the packages above, make sure to have "humboldt" package installed 
+
 ## run the codes below ONCE ONLY == after running them once, lock them with "#" so that they are recognized as comments, not codes 
 #dir.create('climate')
 #dir.create('topo')
@@ -45,9 +47,10 @@ land <- rast('land/mixed_other.tif')
 land <- crop(land, poly)
 land <- mask(land, poly)
 
-### stack into one object
-envs <- rast(c(clim, topo, land))
+### stack into one object == use "c()" for the terra equivalent of the "raster::stack()", which is for the raster package
+envs <- c(clim, topo, land)
 print(envs)
+plot(envs[[1]])
 
 ### optional ::: you can choose to export the processed layers
 
@@ -70,8 +73,11 @@ head(occs)
 occs <- occs[, c('species', 'decimalLongitude', 'decimalLatitude')]
 colnames(occs) = c('species', 'long', 'lat')
 
-# spatially thin the occurrence points to match the spatial resolution of environmental layers
+# spatially thin the occurrence points. We can use the internal SDMtune function "thinData()", but this method matches the thinning
+# distance for
 occs <- thinData(coords = occs[, c(2,3)], env = envs, x = 'long', y = 'lat', verbose = T, progress = T)
+
+# plot out 
 
 #####  PART 3 ::: background point sampling  #####
 # you can sample your backgrounds in several different ways. We will first use random sampling 
