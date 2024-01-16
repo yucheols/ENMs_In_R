@@ -54,7 +54,7 @@ land <- raster('land/mixed_other.tif')
 land <- crop(land, extent(poly))
 land <- mask(land, poly)
 
-### stack into one object == use "c()" for the terra equivalent of the "raster::stack()", which is for the raster package
+### stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
 envs <- raster::stack(clim, topo, land)
 print(envs)
 plot(envs[[1]])
@@ -107,8 +107,9 @@ head(occs)
 # distance. For that we can use the "humboldt.occ.rarefy()" function in the humboldt package. Also check out the "spThin" package
 
 # since out raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data
-# to 215 point
+# to 215 point. We will thin the data first using the humboldt function and then remove NAs using the thinData function.
 occs <- humboldt::humboldt.occ.rarefy(in.pts = occs, colxy = 2:3, rarefy.dist = 10, rarefy.units = 'km', run.silent.rar = F)
+occs <- thinData(coords = occs[, c(2,3)], env = envs, x = 'long', y = 'lat', verbose = T)
 
 # as with the raster data, it is always a good idea to plot out the occurrence points on the map 
 plot(envs[[1]])
@@ -129,10 +130,23 @@ colnames(bg) = colnames(occs[, c(2,3)])
 
 #####  PART 4::: Data partitioning  #####
 # there are several ways to partition your data for model evaluation. But here we will first try 
-# k-fold random cross validation
-cvfolds <- ENMeval::get.randomkfold(occs = occs[, c(2,3)], bg = bg, kfolds = 10)
+# k-fold random cross validation. You may select a specific partitioning method based on your research goals.
+cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 
 
+#####  PART 5 ::: Model fitting  #####
+# Now we have all the data prepared to fit our niche models! 
+# since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package
+# first we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class
+head(occs)
+head(bg)
 
+envs <- rast(envs)
+sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
+
+# now let's build a default MaxEnt model that can be carried downstream 
+def.mod <- SDMtune::train(method = 'Maxent', data = sp.data, folds = cvfolds, progress = T, type = 'cloglog')
+
+# now lets fit several different candidate models
 
 
