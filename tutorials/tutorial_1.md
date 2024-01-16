@@ -1,4 +1,4 @@
-# ENMs in R hands-on practical session
+# ENMs in R hands-on practical session. Tutorial 1
 #### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Korea)
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
