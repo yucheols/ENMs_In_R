@@ -18,7 +18,7 @@ library(extrafont)
 library(rasterVis)
 library(ggplot2)
 
-## Other than the packages above, make sure to have "humboldt", "sf" packages installed .
+## Other than the packages above, make sure to have "humboldt", "sf", "caret" packages installed .
 
 ## Note on the usage of the "raster" package ::: Since SDMtune accepts SpatRaster objects created from the terra package, 
 ## we really don't need to rely on the raster package. But the exclusive use of terra package is producing some weird errors 
@@ -66,6 +66,23 @@ for (i in 1:nlayers(envs)) {
   writeRaster(layer, filename = file_name, overwrite = T)
 }
 
+### lets remove highly correlated layers. This can be done in several different ways in several different packages. 
+#    You may choose to use the internal SDMtune function. But this requires you to first fit a default niche model.
+#    You may or may not want to do this. Otherwise you can do something like this:
+
+# make correlation table first
+envs_df <- envs %>% as.data.frame() %>% na.omit()
+cor_mat <- cor(envs_df, method = 'pearson')
+print(cor_mat)
+
+# remove highly correlated using cutoff of |r| < 0.7
+find_cor <- caret::findCorrelation(cor_mat, cutoff = abs(0.7)) 
+print(find_cor)
+
+# drop highly correlated layers
+envs <- dropLayer(envs, sort(find_cor))
+print(envs)
+
 
 #####  PART 2 ::: occurrence data  #####
 # there are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the 
@@ -103,12 +120,19 @@ points(occs[, c(2,3)])
 # and will separately address spatial sampling bias correction. We will then compare the predictive outcomes of both models 
 
 # sample random background ::: use the dismo package. Make sure to install this package as well if not installed already
-bg <- dismo::randomPoints(mask = raster::raster(envs[[1]]), n = 10000,)
+# we will sample the random points and then plot it out on the map
+bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
+points(bg, col = 'blue')
+
+head(bg)
+colnames(bg) = colnames(occs[, c(2,3)])
+
+#####  PART 4::: Data partitioning  #####
+# there are several ways to partition your data for model evaluation. But here we will first try 
+# k-fold random cross validation
+cvfolds <- ENMeval::get.randomkfold(occs = occs[, c(2,3)], bg = bg, kfolds = 10)
 
 
 
 
 
-### lets remove highly correlated layers. This can be done in several different ways in several different packages. 
-#    You may choose to use the internal SDMtune function. But this requires you to first fit a default niche model.
-#    You may or may not want to do this. Otherwise you can do something like this:
