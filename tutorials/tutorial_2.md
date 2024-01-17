@@ -146,6 +146,7 @@ print(broad.resp.data)
 
 ## 9. Model prediction
 Now look at our prediction output:
+
 ![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/44d87f5b-00c1-479b-a9ad-8a22b87911ae)
 
 
