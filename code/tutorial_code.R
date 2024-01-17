@@ -205,7 +205,7 @@ respDataPull <- function(model, var, type, species_name, only_presence, marginal
     plotdata <- ggplot2::ggplot_build(plotdata)$data
     plotdata <- plotdata[[1]]
     
-    plotdata <- plotdata[, c(1,2)]
+    plotdata <- plotdata[, c(1:4)]
     plotdata$species <- species_name
     plotdata$var <- var[[i]]
     
@@ -218,6 +218,16 @@ respDataPull <- function(model, var, type, species_name, only_presence, marginal
 # Now we will run this function. We will save the output of this function into an object we can use.
 resp.data <- respDataPull(species_name = 'B.stejnegeri', model = opt.mod.obj, var = names(envs), 
                           type = 'cloglog', only_presence = F, marginal = F)
+
+
+# lets make a neat plot in ggplot style. We will use "facet_wrap" to show response curves for all variables in one plotting pane.
+resp.data %>%
+  ggplot(aes(x = x, y = y)) +
+  facet_wrap(~ var, scales = 'free') +
+  geom_line(color = 'cornflowerblue', linewidth = 1.2) +
+  geom_ribbon(aes(ymin = ymin, ymax = ymax), fill = 'grey', alpha = 0.4) +
+  xlab('Variable') + ylab('Suitability') +
+  theme_light()
 
 
 #####  PART 7 ::: model prediction  #####
