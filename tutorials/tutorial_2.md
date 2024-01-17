@@ -13,7 +13,7 @@ Before diving in, we need to setup an environment to run the codes.
 5) Now you will be working within this directory for this workshop. 
 
 
-## 2. Load packages and prepare data
+## 2. Load packages and prepare environmental data
 The terra and raster packages are for raster data handling in R, dplyr is for data frame manipulation and filtering, SDMtune is used for core model fitting and predictions, 
 ENMeval is used to generate spatial blocks, and extrafont, rasterVis and ggplot2 packages are used for plotting model outputs in R.
 
@@ -33,11 +33,13 @@ library(ggplot2)
 
 Now, we are ready to load and prepare the environmrntal predictors. But before we do that, lets create the files to put the environmental data.
 We can do that by simply running dir.create(), like so: 
+
 ```r
 dir.create('climate')
 dir.create('topo')
 dir.create('land')
 ```
+
 In the "climate" directory we will put climate rasters, in the "topo" directory we will put topographical variables (e.g. slope, elevation), and in the "land" directory we will put land cover/vegetation variables. 
 
 
@@ -76,15 +78,36 @@ for (i in 1:nlayers(envs)) {
 }
 ```
 
-## 3. Background data sampling
+## 3. Occurrence data collection
+```r
+#####  PART 2 ::: occurrence data  #####
+# there are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the 
+# data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation:
+# https://github.com/brshipley/megaSDM
 
-## 4. Variable selection
+# collect occurrence points
+megaSDM::OccurrenceCollection(spplist = c('Bufo stejnegeri'), output = 'occs',
+                              trainingarea = extent(envs[[1]]))
 
-## 5. Data partitioning for model evaluation
+# now lets look at the data
+occs <- read.csv('occs/Bufo_stejnegeri.csv')
+head(occs)
 
-## 6. Model tuning and optimal model selection
+# since we only need the species name, longitude, and latitude, we will pull out those three columns only
+occs <- occs[, c('species', 'decimalLongitude', 'decimalLatitude')]
+colnames(occs) = c('species', 'long', 'lat')
+head(occs)
+```
 
-## 7. Response curves
+## 4. Background data sampling
+
+## 5. Variable selection
+
+## 6. Data partitioning for model evaluation
+
+## 7. Model tuning and optimal model selection
+
+## 8. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. But you may wish to further customize the plot for better visualization or publication. For that we can actually extract the data used to build response curves and customize the plot using ggplot2.
 
 To pull out the data though, we need to make a little work around because "plotResponse()" will automatically print out a finished plot. We can use this little wrapper function I've made (called "respDataPull()") to extract response data:
@@ -121,7 +144,7 @@ broad.resp.data <- respDataPull(model = tune@models[[6]],
 print(broad.resp.data)
 ```
 
-## 8. Model prediction
+## 9. Model prediction
 
 ## n. Model extrapolation
 Here we will project the fitted model to the environmental conditions of California. This is an ecologically meaningless exercise but we will try this nonetheless to illustrate the concept of model transfer.
