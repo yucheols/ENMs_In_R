@@ -140,6 +140,8 @@ respDataPull <- function(model, var, type, species_name, only_presence, marginal
 }
 ```
 
+
+
 Basically, what this function does, is that it loops over the number of input variables, extracts plot data, and merges them into a data frame for customization in ggplot2.
 
 ```r
@@ -147,6 +149,8 @@ Basically, what this function does, is that it loops over the number of input va
 resp.data <- respDataPull(species_name = 'B.stejnegeri', model = opt.mod.obj, var = names(envs), 
                           type = 'cloglog', only_presence = F, marginal = F)
 ```
+
+
 
 Now we can use this response data to customize our plot using the ggplot2 package
 
@@ -159,6 +163,7 @@ resp.data %>%
   xlab('Variable') + ylab('Suitability') +
   theme_light()
 ```
+
 
 Running the code above will produce a plot that looks loke this:
 
