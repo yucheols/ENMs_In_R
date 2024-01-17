@@ -147,7 +147,7 @@ print(broad.resp.data)
 ## 9. Model prediction
 Now look at our prediction output:
 
-![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/538a9b48-5a2b-4f6f-b820-30d1b39cae15){: .align-center}
+![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/538a9b48-5a2b-4f6f-b820-30d1b39cae15)
 
 Let's look at this model closely and take a note here. I've mentioned in Tutorial 1 that B.stejnegeri is found across northeastern China and the Korean Peninsula. But in our output model, we see that the predicted habitat suitability is almost zero for D.P.R Korea. Since we have very little knowledge of herpetofauna for that country, one might argue this is how it should be: that the habitat suitability of B.stejnegeri in D.P.R. Korea is very low. However, this is hihgly unlikely based on multiple lines of evidence. Therefore we may suspect that the prediction is in fact biased by a strong spatial sampling bias of occurrence points toward R.Korea. In turn, this means that our landscape predition is a representation of spatial sampling intensity instead of habitat suitability. This outcome is NOT the one we want. In the next tutorial, we will explore a way to compensate for such sampling bias. But here, we will just use this model to get a general idea of how the ENM workflow is organized.
 
