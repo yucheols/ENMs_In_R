@@ -120,7 +120,7 @@ But you may wish to further customize the plot for better visualization or publi
 To pull out the data though, we need to make a little work around because "plotResponse()" will automatically print out a finished plot. We can use this little wrapper function I've made (called "respDataPull()") to extract response data:
 
 ```r
-respDataPull <- function(model, var, type, only_presence, marginal, species_name) {
+respDataPull <- function(model, var, type, species_name, only_presence, marginal) {
   
   plotdata.list <- list()
   
@@ -129,7 +129,7 @@ respDataPull <- function(model, var, type, only_presence, marginal, species_name
     plotdata <- ggplot2::ggplot_build(plotdata)$data
     plotdata <- plotdata[[1]]
     
-    plotdata <- plotdata[, c(1,2)]
+    plotdata <- plotdata[, c(1:4)]
     plotdata$species <- species_name
     plotdata$var <- var[[i]]
     
@@ -144,12 +144,26 @@ Basically, what this function does, is that it loops over the number of input va
 
 ```r
 # pull data
-broad.resp.data <- respDataPull(model = tune@models[[6]], 
-                                var = c('bio1', 'bio12', 'bio14', 'bio3', 'bio5', 'cultivated', 'herb', 'shrub', 'slope'),
-                                type = 'cloglog', only_presence = T, marginal = T, species_name = 'Lycodon')
-
-print(broad.resp.data)
+resp.data <- respDataPull(species_name = 'B.stejnegeri', model = opt.mod.obj, var = names(envs), 
+                          type = 'cloglog', only_presence = F, marginal = F)
 ```
+
+Now we can use this response data to customize our plot using the ggplot2 package
+
+```r
+resp.data %>%
+  ggplot(aes(x = x, y = y)) +
+  facet_wrap(~ var, scales = 'free') +
+  geom_line(color = 'cornflowerblue', linewidth = 1.2) +
+  geom_ribbon(aes(ymin = ymin, ymax = ymax), fill = 'grey', alpha = 0.4) +
+  xlab('Variable') + ylab('Suitability') +
+  theme_light()
+```
+
+Running the code above will produce a plot that looks loke this:
+
+![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/ee59712a-b27d-4a49-b811-dbb60da4b78a)
+
 
 ## 9. Model prediction
 Now look at our prediction output:
