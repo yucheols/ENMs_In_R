@@ -20,7 +20,7 @@ ENMeval is used to generate spatial blocks, and extrafont, rasterVis and ggplot2
 ** Note: I used the raster package as a matter of personal preference while writing this code. But now it is recommended to use the terra package instead.
 
 ```r
-## load libraries
+## load packages
 library(terra)
 library(raster)
 library(dplyr)
@@ -42,33 +42,38 @@ In the "climate" directory we will put climate rasters, in the "topo" directory 
 
 
 ```r
-#####  PART 1 ::: environmental data  #####
-# set clipping extent
-ext <- c(100, 132, 18, 42)
+### first, we will import a polygon file for the Korean Peninsula to process our environmental layers
+poly <- sf::st_read('poly/kor_mer.shp')
 
-# clim
-clim <- raster::stack(list.files(path = 'E:/env layers/worldclim', pattern = '.tif$', full.names = T))
-clim <- raster::crop(clim, ext)
-plot(clim[[1]])
+### now we will import, crop, and mask our layers
+# climate
+clim <- raster::stack(list.files(path = 'climate', pattern = '.tif$', full.names = T))  # import
+clim <- raster::crop(clim, extent(poly))                            # crop == crop to geographic extent
+clim <- mask(clim, poly)                            # mask == cut along the polygon boundary ("cookie cutter")
 
-names(clim) = c('bio1','bio10','bio11','bio12','bio13','bio14','bio15',
-                'bio16','bio17','bio18','bio19','bio2','bio3','bio4',
-                'bio5','bio6','bio7','bio8','bio9')
+plot(clim[[1]]) # It is always a good idea to plot out the processed layer(s)
 
-# elev 
-elev <- raster('E:/env layers/elev_worldclim/wc2.1_30s_elev.tif')
-elev <- raster::crop(elev, ext)
-names(elev) = 'elev'
-
-# slope == created from the elev layer cropped above
-slope <- raster('slope/slope.tif')
-plot(slope)
+# topo
+topo <- raster::stack(list.files(path = 'topo', pattern = '.tif$', full.names = T))
+topo <- crop(topo, extent(poly))
+topo <- mask(topo, poly)
 
 # land cover
-land <- raster::stack(list.files(path = 'E:/env layers/land cover', pattern = '.tif', full.names = T))
-land <- raster::stack(subset(land, c('cultivated', 'herb', 'shrubs', 'forest_merged')))
-land <- raster::crop(land, ext)
-names(land) = c('cultivated', 'herb', 'shrubs', 'forest')
+land <- raster('land/mixed_other.tif')
+land <- crop(land, extent(poly))
+land <- mask(land, poly)
+
+### stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
+envs <- raster::stack(clim, topo, land)
+print(envs)
+plot(envs[[1]])
+
+### optional ::: you can choose to export the processed layers
+for (i in 1:nlayers(envs)) {
+  layer <- envs[[i]]
+  file_name <- paste0('env_processed/', names(envs)[i], '.tif')
+  writeRaster(layer, filename = file_name, overwrite = T)
+}
 ```
 
 ## 3. Background data sampling
