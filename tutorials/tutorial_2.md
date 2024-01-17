@@ -97,12 +97,23 @@ head(occs)
 ```
 
 ## 4. Background data sampling
+```r
+bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
+points(bg, col = 'blue')
+
+head(bg)
+colnames(bg) = colnames(occs[, c(2,3)])
+```
 
 ## 5. Variable selection
 
 ## 6. Data partitioning for model evaluation
+```r
+cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
+```
 
 ## 7. Model tuning and optimal model selection
+
 
 ## 8. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. This will print out a ggplot-style output:
