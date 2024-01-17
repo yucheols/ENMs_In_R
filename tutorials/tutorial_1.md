@@ -38,6 +38,7 @@ In this tutorial, we will use the Korean water toad (Bufo stejengeri) as an exam
 
 ![bstej](https://github.com/yucheols/ENMs_In_R/assets/85914125/46011183-ce5c-4406-8fc0-e5151e57df85)
 ![habitat](https://github.com/yucheols/ENMs_In_R/assets/85914125/24c3116f-5e48-4d04-9326-8e2a8aa7ac5d)
+(Photographed by Yucheol Shin)
 
 #### Now let's move on to the next tutorial and start the modeling steps! 
 
