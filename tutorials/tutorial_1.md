@@ -16,7 +16,8 @@ This is my personal story, but also on a practical note, now there are TONS of E
 ## 2. A (very) basic workflow of presence-background ENMs
 Presence-background ENM algorithms require the presence and background datasets (as its name implies), as well as environmental predictors, as inputs. Probably the most popular algorithm out there is MaxEnt, and it is the algorithm used here as well. Below is a very basic illustration of how the presence-background ENMs work. We will keep this workflow and its key steps in mind as we navigate the codes.  
 
-![ENM_workflow](https://github.com/yucheols/Lycodon_ENM_ver2/assets/85914125/4afb2c4c-7576-4f1c-9bd3-ffc2a44863c3)
+![ENM_workflow](https://github.com/yucheols/ENMs_In_R/assets/85914125/32e1545b-b321-4c1e-9dea-e376458c778b)
+
 
 The processes in rectangles are what I think of as the "key steps" - the steps I always go through when running ENMs, and the ones in grey ovals are what I call the "optional steps" - you can choose to run them or not depending on your research questions.
 
