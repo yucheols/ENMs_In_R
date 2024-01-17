@@ -195,3 +195,13 @@ print(var.imp)
 # now that we have our fitted MaxEnt model, we can now make landscape predictions!
 pred <- SDMtune::predict(object = opt.mod.obj, data = envs, type = 'cloglog', clamp = T, progress = T) %>% raster()
 plot(pred)
+
+# let's make a neat plot in the style of ggplot2. We will use the same default color scheme called the "terrain.colors". 
+# But of course you can choose a different color palette. There's a broad selection of color palettes available in R.
+gplot(pred) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') 
