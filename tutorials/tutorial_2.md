@@ -1,3 +1,8 @@
+# ENMs in R hands-on practical session: Tutorial 1
+#### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Korea)
+Feb dd 2024
+@ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
+
 ## 3. Set up the working directory
 Before diving in, we need to setup an environment to run the codes.
 
