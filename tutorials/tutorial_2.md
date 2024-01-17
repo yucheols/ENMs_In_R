@@ -189,7 +189,7 @@ pred <- SDMtune::predict(object = opt.mod.obj, data = envs, type = 'cloglog', cl
 plot(pred)
 ```
 
-Now have a closer look at our prediction output:
+
 
 ![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/538a9b48-5a2b-4f6f-b820-30d1b39cae15)
 
