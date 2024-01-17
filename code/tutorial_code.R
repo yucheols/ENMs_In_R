@@ -15,9 +15,9 @@ library(raster)
 library(dplyr)
 library(SDMtune)
 library(ENMeval)
-library(extrafont)
 library(rasterVis)
 library(ggplot2)
+library(sf)
 
 ## Other than the packages above, make sure to have "humboldt", "sf", "caret" packages installed .
 
@@ -189,6 +189,35 @@ var.imp <- maxentVarImp(opt.mod.obj)
 print(var.imp)
 
 #####  PART 6 ::: Response curves  #####
+# We can print out the response curve for each variable using the "plotResponse" function. This prints out a ggplot style output.
+plotResponse(model = opt.mod.obj, var = 'bio2', type = 'cloglog')
+
+# However, for further plot customization in ggplot2, we must first pull out the data used to draw response curves. We can use a simple
+# looping function below. This loop wraps around the plotResponse function.
+
+# first, run the code below to save this fuction to your current R environment
+respDataPull <- function(model, var, type, species_name, only_presence, marginal) {
+  
+  plotdata.list <- list()
+  
+  for (i in 1:length(var)) {
+    plotdata <- plotResponse(model = model, var = var[[i]], type = type, only_presence = only_presence, marginal = marginal)
+    plotdata <- ggplot2::ggplot_build(plotdata)$data
+    plotdata <- plotdata[[1]]
+    
+    plotdata <- plotdata[, c(1,2)]
+    plotdata$species <- species_name
+    plotdata$var <- var[[i]]
+    
+    plotdata.list[[i]] <- plotdata
+  }
+  plotdata.df <- dplyr::bind_rows(plotdata.list)
+  return(plotdata.df)
+}
+
+# Now we will run this function. We will save the output of this function into an object we can use.
+resp.data <- respDataPull(species_name = 'B.stejnegeri', model = opt.mod.obj, var = names(envs), 
+                          type = 'cloglog', only_presence = F, marginal = F)
 
 
 #####  PART 7 ::: model prediction  #####
@@ -204,4 +233,9 @@ gplot(pred) +
   scale_fill_gradientn(colors = rev(terrain.colors(1000)),
                        na.value = NA,
                        name = 'Suitability') +
-  xlab('Long') + ylab('Lat') 
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+
+
+
+          
