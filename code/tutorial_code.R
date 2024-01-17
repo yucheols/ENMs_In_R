@@ -246,6 +246,3 @@ gplot(pred) +
   xlab('Long') + ylab('Lat') +
   theme_dark()
 
-
-
-          
