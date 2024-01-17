@@ -1,9 +1,9 @@
-# ENMs in R hands-on practical session: Tutorial 1
+# ENMs in R hands-on practical session: Tutorial 2
 #### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Korea)
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
 
-## 3. Set up the working directory
+## 1. Set up the working directory
 Before diving in, we need to setup an environment to run the codes.
 
 1) First, make sure to have both R and RStudio installed in your laptop.
@@ -13,7 +13,7 @@ Before diving in, we need to setup an environment to run the codes.
 5) Now you will be working within this directory for this workshop. 
 
 
-## 4. Load packages and prepare data
+## 2. Load packages and prepare data
 The terra and raster packages are for raster data handling in R, dplyr is for data frame manipulation and filtering, SDMtune is used for core model fitting and predictions, 
 ENMeval is used to generate spatial blocks, and extrafont, rasterVis and ggplot2 packages are used for plotting model outputs in R.
 
@@ -71,15 +71,15 @@ land <- raster::crop(land, ext)
 names(land) = c('cultivated', 'herb', 'shrubs', 'forest')
 ```
 
-## 5. Background data sampling
+## 3. Background data sampling
 
-## 6. Variable selection
+## 4. Variable selection
 
-## 7. Data partitioning for model evaluation
+## 5. Data partitioning for model evaluation
 
-## 8. Model tuning and optimal model selection
+## 6. Model tuning and optimal model selection
 
-## 9. Response curves
+## 7. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. But you may wish to further customize the plot for better visualization or publication. For that we can actually extract the data used to build response curves and customize the plot using ggplot2.
 
 To pull out the data though, we need to make a little work around because "plotResponse()" will automatically print out a finished plot. We can use this little wrapper function I've made (called "respDataPull()") to extract response data:
@@ -116,7 +116,7 @@ broad.resp.data <- respDataPull(model = tune@models[[6]],
 print(broad.resp.data)
 ```
 
-## 10. Model prediction
+## 8. Model prediction
 
 ## n. Model extrapolation
 Here we will project the fitted model to the environmental conditions of California. This is an ecologically meaningless exercise but we will try this nonetheless to illustrate the concept of model transfer.
