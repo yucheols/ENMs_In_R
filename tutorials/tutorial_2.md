@@ -108,7 +108,17 @@ head(occs)
 ## 7. Model tuning and optimal model selection
 
 ## 8. Response curves
-With SDMtune you can get a response curve for each variable using the "plotResponse()" function. But you may wish to further customize the plot for better visualization or publication. For that we can actually extract the data used to build response curves and customize the plot using ggplot2.
+With SDMtune you can get a response curve for each variable using the "plotResponse()" function. This will print out a ggplot-style output:
+```r
+plotResponse(model = opt.mod.obj, var = 'bio2', type = 'cloglog')
+```
+![bio2_resp](https://github.com/yucheols/ENMs_In_R/assets/85914125/82d490bf-5559-4660-925f-b25ea43cc8b6)
+
+
+
+
+
+But you may wish to further customize the plot for better visualization or publication. For that we can actually extract the data used to build response curves and customize the plot using ggplot2.
 
 To pull out the data though, we need to make a little work around because "plotResponse()" will automatically print out a finished plot. We can use this little wrapper function I've made (called "respDataPull()") to extract response data:
 
