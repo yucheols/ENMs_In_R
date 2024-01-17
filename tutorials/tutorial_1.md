@@ -34,7 +34,7 @@ Below are some of the basic input data types for presence-background ENMs.
 6) Other: you may also consider solar radiation, potential evaporation, soil chemistry, distance to a certain environmental feature etc. These layers can either be obtained from public DBs or you can make them in GIS.
 
 ## 4. Species used in this tutorial
-In this tutorial, we will use the Korean water toad (Bufo stejengeri) as an example organism for niche modeling. This species is mainly found in the mountains of northeastern China and the Korean Peninsula. The species is considered an ecological specialist because it is highly dependent on the mountain creeks and surrounding forests for survival. They overwinter underwater, usually in male-female pair in amplexus. Below you can see what the species and its habitat look like.
+In this tutorial, we will use the Korean water toad (Bufo stejengeri) as an example organism for niche modeling. This species can be found in the mountains of northeastern China and the Korean Peninsula. The species is considered an ecological specialist because it is highly dependent on the mountain creeks and surrounding forests for survival. They overwinter underwater, usually in male-female pair in amplexus. Below you can see what the species and its habitat look like.
 
 ![bstej](https://github.com/yucheols/ENMs_In_R/assets/85914125/46011183-ce5c-4406-8fc0-e5151e57df85)
 ![habitat](https://github.com/yucheols/ENMs_In_R/assets/85914125/24c3116f-5e48-4d04-9326-8e2a8aa7ac5d)
