@@ -7,6 +7,7 @@
 # This will enable you to collapse your workflow into organize chunks.
 # You will see this workflow is formatted into "##### PART 1 ::: blah blah #####", "##### PART 2 ::: blah blah #####" and so on.
 
+
 #######################################################  The workflow starts here  ######################################################
 ## load packages
 library(terra)
@@ -145,8 +146,52 @@ envs <- rast(envs)
 sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
 
 # now let's build a default MaxEnt model that can be carried downstream 
-def.mod <- SDMtune::train(method = 'Maxent', data = sp.data, folds = cvfolds, progress = T, type = 'cloglog')
+def.mod <- SDMtune::train(method = 'Maxent', data = sp.data, folds = cvfolds, progress = T, iter = 5000, type = 'cloglog')
+print(def.mod)
 
-# now lets fit several different candidate models
+# now lets fit several different candidate models. We will use the "gridSearch" function. This is similar to running
+# the "ENMevaluate" function in the ENMeval package
+
+# For this demo we will test a relatively small number of model paramaters as adding more parameters increases computing time.
+# but you can choose add more combinations depending on your study design  
+
+# we are testing 4 feature combinations and 3 regularization values = 4 X 3 = 12 models
+find.mod <- gridSearch(model = def.mod, 
+                       hypers = list(fc = c('lq', 'lqh', 'lqhp', 'lqhpt'),
+                                     reg = seq(1, 2, by = 0.5)),
+                       metric = 'auc',
+                       save_models = T, 
+                       interactive = F,
+                       progress = T)
+
+# The above code actually takes quite a bit to run...(~ 40 minutes)
+# so for the purpose of this demo we will just load the previously saved model object by running the code below
+
+# find.mod <- readr::read_rds('models/models.rds')
+
+# Now select the optimal model. This can also be done in several different ways and by applying different criteria. 
+# Here we will select the model with maximum test AUC
+opt.mod <- find.mod@results %>% filter(test_AUC == max(test_AUC))
+print(opt.mod)
+
+# We can see that our optimal model is built with LQHP features and a regularization value of 1.0. This is the 3rd model out of 12 models.
+# We can also see that our chosen evaluation metric (test AUC) is pretty high.
+
+# let's save our optimal model into a separate object to make downstream model predictions easier 
+opt.mod.obj <- find.mod@models[[3]]
+print(opt.mod.obj)
+
+# in addition to AUC, you may want to calculate TSS. You can do this like so:
+tss(model = opt.mod.obj, test = T)
+
+# lets look at variable importance 
+var.imp <- maxentVarImp(opt.mod.obj)
+print(var.imp)
+
+#####  PART 6 ::: Response curves  #####
 
 
+#####  PART 7 ::: model prediction  #####
+# now that we have our fitted MaxEnt model, we can now make landscape predictions!
+pred <- SDMtune::predict(object = opt.mod.obj, data = envs, type = 'cloglog', clamp = T, progress = T) %>% raster()
+plot(pred)
