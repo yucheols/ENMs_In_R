@@ -97,12 +97,23 @@ head(occs)
 ```
 
 ## 4. Background data sampling
+```r
+bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
+points(bg, col = 'blue')
+
+head(bg)
+colnames(bg) = colnames(occs[, c(2,3)])
+```
 
 ## 5. Variable selection
 
 ## 6. Data partitioning for model evaluation
+```r
+cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
+```
 
 ## 7. Model tuning and optimal model selection
+
 
 ## 8. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. This will print out a ggplot-style output:
@@ -120,7 +131,7 @@ But you may wish to further customize the plot for better visualization or publi
 To pull out the data though, we need to make a little work around because "plotResponse()" will automatically print out a finished plot. We can use this little wrapper function I've made (called "respDataPull()") to extract response data:
 
 ```r
-respDataPull <- function(model, var, type, only_presence, marginal, species_name) {
+respDataPull <- function(model, var, type, species_name, only_presence, marginal) {
   
   plotdata.list <- list()
   
@@ -129,7 +140,7 @@ respDataPull <- function(model, var, type, only_presence, marginal, species_name
     plotdata <- ggplot2::ggplot_build(plotdata)$data
     plotdata <- plotdata[[1]]
     
-    plotdata <- plotdata[, c(1,2)]
+    plotdata <- plotdata[, c(1:4)]
     plotdata$species <- species_name
     plotdata$var <- var[[i]]
     
@@ -140,16 +151,35 @@ respDataPull <- function(model, var, type, only_presence, marginal, species_name
 }
 ```
 
+
+
 Basically, what this function does, is that it loops over the number of input variables, extracts plot data, and merges them into a data frame for customization in ggplot2.
 
 ```r
 # pull data
-broad.resp.data <- respDataPull(model = tune@models[[6]], 
-                                var = c('bio1', 'bio12', 'bio14', 'bio3', 'bio5', 'cultivated', 'herb', 'shrub', 'slope'),
-                                type = 'cloglog', only_presence = T, marginal = T, species_name = 'Lycodon')
-
-print(broad.resp.data)
+resp.data <- respDataPull(species_name = 'B.stejnegeri', model = opt.mod.obj, var = names(envs), 
+                          type = 'cloglog', only_presence = F, marginal = F)
 ```
+
+
+
+Now we can use this response data to customize our plot using the ggplot2 package
+
+```r
+resp.data %>%
+  ggplot(aes(x = x, y = y)) +
+  facet_wrap(~ var, scales = 'free') +
+  geom_line(color = 'cornflowerblue', linewidth = 1.2) +
+  geom_ribbon(aes(ymin = ymin, ymax = ymax), fill = 'grey', alpha = 0.4) +
+  xlab('Variable') + ylab('Suitability') +
+  theme_light()
+```
+
+
+Running the code above will produce a plot that looks loke this:
+
+![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/ee59712a-b27d-4a49-b811-dbb60da4b78a)
+
 
 ## 9. Model prediction
 Now look at our prediction output:
@@ -157,6 +187,24 @@ Now look at our prediction output:
 ![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/538a9b48-5a2b-4f6f-b820-30d1b39cae15)
 
 Let's look at this model closely and take a note here. I've mentioned in Tutorial 1 that B.stejnegeri is found across northeastern China and the Korean Peninsula. But in our output model, we see that the predicted habitat suitability is almost zero for D.P.R Korea. Since we have very little knowledge of herpetofauna for that country, one might argue this is how it should be: that the habitat suitability of B.stejnegeri in D.P.R. Korea is very low. However, this is hihgly unlikely based on multiple lines of evidence. Therefore we may suspect that the prediction is in fact biased by a strong spatial sampling bias of occurrence points toward R.Korea. In turn, this means that our landscape predition is a representation of spatial sampling intensity instead of habitat suitability. This outcome is NOT the one we want. In the next tutorial, we will explore a way to compensate for such sampling bias. But here, we will just use this model to get a general idea of how the ENM workflow is organized.
+
+Anyway, we can customize this prediction output further using ggplot2 and extensions provided by the rasterVis package.
+
+```r
+gplot(pred) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+```
+
+This will produce a figure that looks like this:
+
+![pred_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/7a1642a0-eff0-4235-afbb-ff79ac1b75b1)
+
 
 ## n. Model extrapolation
 Here we will project the fitted model to the environmental conditions of California. This is an ecologically meaningless exercise but we will try this nonetheless to illustrate the concept of model transfer.
