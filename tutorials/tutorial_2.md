@@ -196,11 +196,13 @@ colnames(bg) = colnames(occs)
 
 
 ## Part 4. Data partitioning for model evaluation
-There are several ways to partition your data for model evaluation. But here we will first try k-fold random cross validation. You may select a specific partitioning method based on your research goals.
+Now we need to partition our data into "training" and "testing" folds. There are several ways to partition your data for model evaluation. But here we will try k-fold random cross-validation. This approach randomly divides your data into k-equal parts, using k-1 part of data for building the models and then using the remaining one part for model evaluation. You may select a specific partitioning method based on your research goals or you can even customize the selection of your folds using different packages. For more details on partitioning schemes, here is an excellent vignette by Dr. Jamie Kass: https://jamiemkass.github.io/ENMeval/articles/ENMeval-2.0-vignette.html#partition
 
 ```r
 cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 ```
+
+In our code, we used the ENMeval package get our data partitions, setting "kfolds = 10". This means that our data has been partitioned into 10 equal parts. 9 parts of the data will go into model fitting and the remaining one part will be used for model testing.
 
 ## Part 5. Fitting candidate models and selecting the optimal model
 ```r
