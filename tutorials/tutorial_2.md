@@ -175,7 +175,7 @@ points(occs)
 Let's take a note here. See how the occurrence points are clustered in R. Korea but pretty much absent in D.P.R. Korea? We will get back to this later in this tutorial and in the next one to illustrate an important consideration to make while running ENMs. 
 
 ## Part 3. Background data sampling
-Now that we have the occurrence data prepared, we also need to have some background points to go with it. For this first tutorial, I will go ahead and sample 10,000 random background points. This is done pretty easily using the "randomPoints()" function of the dismo package. 
+Now that we have the occurrence data prepared, we also need to have some background points to go with it. For this first tutorial, I will go ahead and sample 10,000 random background points. This is done pretty easily using the "randomPoints()" function of the dismo package. After that, let's plot our sampled background points across the modeling extent. We can see the points are pretty much distributed all over the Korean Peninsula.
 
 
 
@@ -184,7 +184,6 @@ bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs, excludep = T) %
 points(bg, col = 'blue')
 ```
 
-Let's plot our sampled background points across the modeling extent. We can see the points are pretty much distributed all over the Korean Peninsula.
 ![bg](https://github.com/yucheols/ENMs_In_R/assets/85914125/0354fa64-07f0-41a4-ba5a-cb8be130fd1a)
 
 
