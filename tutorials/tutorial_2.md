@@ -203,6 +203,20 @@ cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 
 In our code, we used the ENMeval package get our data partitions, setting "kfolds = 10". This means that our data has been partitioned into 10 equal parts. 9 parts of the data will go into model fitting and the remaining one part will be used for model testing.
 
+Now, let's look at the fold assignments for the occurrence data:
+
+```r
+ENMeval::evalplot.grps(envs = envs, pts = occs, pts.grp = cvfolds$occs.grp)
+```
+![occs_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/afce9da0-50ed-401d-90d4-397d293be20c)
+
+And now for the background data:
+```r
+ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
+```
+![bg_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/b2f15ab3-e68a-447e-bbef-3cb8eaaddf00)
+
+
 ## Part 5. Fitting candidate models and selecting the optimal model
 ```r
 # Now we have all the data prepared to fit our niche models! 
