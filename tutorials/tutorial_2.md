@@ -250,29 +250,41 @@ The above code actually takes quite a bit to run...(~ 40 minutes), so for the pu
 find.mod <- readr::read_rds('models/models.rds')
 ```
 
+Now select the optimal model. This can also be done in several different ways and by applying different criteria. Here we will select the model with maximum test AUC
 ```r
-# Now select the optimal model. This can also be done in several different ways and by applying different criteria. 
-# Here we will select the model with maximum test AUC
 opt.mod <- find.mod@results %>% filter(test_AUC == max(test_AUC))
 print(opt.mod)
 ```
-```r
-# We can see that our optimal model is built with LQHP features and a regularization value of 1.0. This is the 3rd model out of 12 models.
-# We can also see that our chosen evaluation metric (test AUC) is pretty high.
 
-# let's save our optimal model into a separate object to make downstream model predictions easier 
+We can see that our optimal model is built with LQHP features and a regularization value of 1.0. This is the 3rd model out of 12 models. We can also see that our chosen evaluation metric (test AUC) is pretty high. Let's save our optimal model into a separate object to make downstream model predictions easier 
+
+```r
 opt.mod.obj <- find.mod@models[[3]]
 print(opt.mod.obj)
 ```
 
+In addition to AUC, you may want to calculate TSS. You can do this like so:
 ```r
-# in addition to AUC, you may want to calculate TSS. You can do this like so:
 tss(model = opt.mod.obj, test = T)
 ```
-```r
-# lets look at variable importance 
+
+### Lets look at variable importance
+```r 
 var.imp <- maxentVarImp(opt.mod.obj)
-print(var.imp)
+```
+
+Printing this object returns the variable importance based on permutation importance and percent contribution.
+
+```r 
+> var.imp
+     Variable Percent_contribution Permutation_importance
+1        bio2             25.53339               11.98069
+2       bio15             19.74619               35.46223
+3 mixed_other             17.36491                5.53348
+4       bio18             14.70462               23.44598
+5        elev             11.41267                5.52532
+6        bio3              6.83981               16.49508
+7       slope              4.39842                1.55721
 ```
 
 ## Part 6. Response curves
