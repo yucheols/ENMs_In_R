@@ -471,4 +471,6 @@ gplot(mess$mess) +
   xlab('Long') + ylab('Lat')
 ```
 The output looks like this.
+
+
 ![MESS](https://github.com/yucheols/ENMs_In_R/assets/85914125/ed949d57-b4fb-4b9d-9795-592f6895d05c)
