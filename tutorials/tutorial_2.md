@@ -442,3 +442,18 @@ gplot(spat.proj) +
 ```
 ![proj_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/d8c2d744-e18c-4eda-ba65-ac0cff09f501)
 
+Since we are predicting the model to a different area than used to train our model, there might be some extrapolation happening with our prediction. When extrapolation happens, this essentially means that the model is predicting to the values outside the range of values of the original data. Habitat suitability predicted in areas with high extrapolation should be interpreted with caution. But how do we assess extrapolation risk? one way to do it is by calculating MESS (Multivariate Environmental Similarity Surface). This can be done using the dismo package.
+
+```r
+# Let's prepare data for MESS. We first need our projection layers
+print(proj.envs)
+
+# We also need "reference values" extracted from the layers used for original model calibration
+print(envs)
+
+ref.val <- raster::extract(envs, occs) %>% as.data.frame()
+head(ref.val)
+
+# Let's run MESS
+mess <- dismo::mess(x = proj.envs, v = ref.val, full = T)
+```
