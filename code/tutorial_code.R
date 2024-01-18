@@ -135,6 +135,10 @@ colnames(bg) = colnames(occs)
 # k-fold random cross validation. You may select a specific partitioning method based on your research goals.
 cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 
+# let's visualize our CV folds for occurrence and background points
+ENMeval::evalplot.grps(envs = envs, pts = occs, pts.grp = cvfolds$occs.grp)
+ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
+
 
 #####  PART 5 ::: Model fitting  #####
 # Now we have all the data prepared to fit our niche models! 
