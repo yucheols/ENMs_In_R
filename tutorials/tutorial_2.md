@@ -183,7 +183,7 @@ points(bg, col = 'blue')
 
 ```r
 head(bg)
-colnames(bg) = colnames(occs[, c(2,3)])
+colnames(bg) = colnames(occs)
 ```
 
 
