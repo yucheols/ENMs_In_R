@@ -400,7 +400,13 @@ gplot(pred) +
 ![pred_gg2](https://github.com/yucheols/ENMs_In_R/assets/85914125/9bea1af9-c121-45ab-8f1c-3614031f44b4)
 
 
-## n. Model extrapolation
+
+If you want to make the figures using dedicated GIS softwares instead of doing it in R, you can do so by exporting the output prediction as a raster.
+```r
+writeRaster(pred, 'output_rast/pred.tif')
+```
+
+## 8. Model extrapolation
 
 
 
