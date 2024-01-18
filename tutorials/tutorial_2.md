@@ -188,6 +188,8 @@ colnames(bg) = colnames(occs)
 
 
 ## Part 4. Data partitioning for model evaluation
+There are several ways to partition your data for model evaluation. But here we will first try k-fold random cross validation. You may select a specific partitioning method based on your research goals.
+
 ```r
 cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 ```
