@@ -43,8 +43,6 @@ clim <- raster::stack(list.files(path = 'climate', pattern = '.tif$', full.names
 clim <- raster::crop(clim, extent(poly))                            # crop == crop to geographic extent
 clim <- mask(clim, poly)                            # mask == cut along the polygon boundary ("cookie cutter")
 
-plot(clim[[1]]) # It is always a good idea to plot out the processed layer(s)
-
 # topo
 topo <- raster::stack(list.files(path = 'topo', pattern = '.tif$', full.names = T))
 topo <- crop(topo, extent(poly))
@@ -57,6 +55,9 @@ land <- mask(land, poly)
 
 ### stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
 envs <- raster::stack(clim, topo, land)
+
+# It is always a good idea to print out your object on the console and actually plotting it out.
+# By doing so you can check if all the necessary information for modeling is there (e.g. CRS)
 print(envs)
 plot(envs[[1]])
 
@@ -107,14 +108,14 @@ head(occs)
 # distance to the spatial resolution of input raster layers. So, we may want to have more freedom with the selection of thinning
 # distance. For that we can use the "humboldt.occ.rarefy()" function in the humboldt package. Also check out the "spThin" package
 
-# since out raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data
+# since our raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data
 # to 215 point. We will thin the data first using the humboldt function and then remove NAs using the thinData function.
 occs <- humboldt::humboldt.occ.rarefy(in.pts = occs, colxy = 2:3, rarefy.dist = 10, rarefy.units = 'km', run.silent.rar = F)
-occs <- thinData(coords = occs[, c(2,3)], env = envs, x = 'long', y = 'lat', verbose = T)
+occs <- thinData(coords = occs[, c(2,3)], env = terra::rast(envs), x = 'long', y = 'lat', verbose = T)
 
 # as with the raster data, it is always a good idea to plot out the occurrence points on the map 
 plot(envs[[1]])
-points(occs[, c(2,3)])
+points(occs)
 
 
 #####  PART 3 ::: background point sampling  #####
@@ -123,11 +124,11 @@ points(occs[, c(2,3)])
 
 # sample random background ::: use the dismo package. Make sure to install this package as well if not installed already
 # we will sample the random points and then plot it out on the map
-bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
+bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs, excludep = T) %>% as.data.frame()
 points(bg, col = 'blue')
 
 head(bg)
-colnames(bg) = colnames(occs[, c(2,3)])
+colnames(bg) = colnames(occs)
 
 #####  PART 4::: Data partitioning  #####
 # there are several ways to partition your data for model evaluation. But here we will first try 
@@ -246,3 +247,12 @@ gplot(pred) +
   xlab('Long') + ylab('Lat') +
   theme_dark()
 
+# You can apply a different color palettte, for example:
+gplot(pred) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = c('#2b83ba', '#abdda4', '#ffffbf', '#fdae61', '#4f05d7'),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
