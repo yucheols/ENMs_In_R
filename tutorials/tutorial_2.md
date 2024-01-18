@@ -260,6 +260,21 @@ This will produce a figure that looks like this:
 ![pred_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/7a1642a0-eff0-4235-afbb-ff79ac1b75b1)
 
 
+You can apply a different color palette. For example:
+```r
+gplot(pred) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = c('#2b83ba', '#abdda4', '#ffffbf', '#fdae61', '#4f05d7'),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+```
+
+![pred_gg2](https://github.com/yucheols/ENMs_In_R/assets/85914125/9bea1af9-c121-45ab-8f1c-3614031f44b4)
+
+
 ## n. Model extrapolation
 
 
