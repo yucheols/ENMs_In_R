@@ -457,3 +457,18 @@ head(ref.val)
 # Let's run MESS
 mess <- dismo::mess(x = proj.envs, v = ref.val, full = T)
 ```
+
+Let's plot the MESS raster. You need the pals package loaded to be able to use the "ocean.thermal" palette.
+```r
+gplot(mess$mess) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = as.vector(ocean.thermal(22)),
+                       na.value = 'transparent',
+                       name = 'MESS',
+                       breaks = c(-10, -260),
+                       labels = c('Low', 'High')) +
+  xlab('Long') + ylab('Lat')
+```
+The output looks like this.
+![MESS](https://github.com/yucheols/ENMs_In_R/assets/85914125/ed949d57-b4fb-4b9d-9795-592f6895d05c)
