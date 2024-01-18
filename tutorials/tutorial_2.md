@@ -218,27 +218,22 @@ ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
 
 
 ## Part 5. Fitting candidate models and selecting the optimal model
-```r
-# Now we have all the data prepared to fit our niche models! 
-# since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package
-# first we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class
-head(occs)
-head(bg)
+Now we have all the data prepared to fit our niche models! Since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package. First we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class, and then use the "prepareSWD()" to format the data for modeling.
 
+```r
 envs <- rast(envs)
 sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
+```
 
-# now let's build a default MaxEnt model that can be carried downstream 
+Now let's build a default MaxEnt model that can be carried downstream 
+```r
 def.mod <- SDMtune::train(method = 'Maxent', data = sp.data, folds = cvfolds, progress = T, iter = 5000, type = 'cloglog')
 print(def.mod)
+```
 
-# now lets fit several different candidate models. We will use the "gridSearch" function. This is similar to running
-# the "ENMevaluate" function in the ENMeval package
+Now lets fit several different candidate models. We will use the "gridSearch" function. This is similar to running the "ENMevaluate" function in the ENMeval package. For this demo we will test a relatively small number of model paramaters as adding more parameters increases computing time, but you can choose add more combinations depending on your study design. We are testing 4 feature combinations and 3 regularization values, So 4 X 3 = 12 models
 
-# For this demo we will test a relatively small number of model paramaters as adding more parameters increases computing time.
-# but you can choose add more combinations depending on your study design  
-
-# we are testing 4 feature combinations and 3 regularization values = 4 X 3 = 12 models
+```r
 find.mod <- gridSearch(model = def.mod, 
                        hypers = list(fc = c('lq', 'lqh', 'lqhp', 'lqhpt'),
                                      reg = seq(1, 2, by = 0.5)),
@@ -246,27 +241,35 @@ find.mod <- gridSearch(model = def.mod,
                        save_models = T, 
                        interactive = F,
                        progress = T)
+```
 
-# The above code actually takes quite a bit to run...(~ 40 minutes)
-# so for the purpose of this demo we will just load the previously saved model object by running the code below
 
-# find.mod <- readr::read_rds('models/models.rds')
+The above code actually takes quite a bit to run...(~ 40 minutes), so for the purpose of this demo we will just load the previously saved model object by running the code below.
 
+```r
+find.mod <- readr::read_rds('models/models.rds')
+```
+
+```r
 # Now select the optimal model. This can also be done in several different ways and by applying different criteria. 
 # Here we will select the model with maximum test AUC
 opt.mod <- find.mod@results %>% filter(test_AUC == max(test_AUC))
 print(opt.mod)
-
+```
+```r
 # We can see that our optimal model is built with LQHP features and a regularization value of 1.0. This is the 3rd model out of 12 models.
 # We can also see that our chosen evaluation metric (test AUC) is pretty high.
 
 # let's save our optimal model into a separate object to make downstream model predictions easier 
 opt.mod.obj <- find.mod@models[[3]]
 print(opt.mod.obj)
+```
 
+```r
 # in addition to AUC, you may want to calculate TSS. You can do this like so:
 tss(model = opt.mod.obj, test = T)
-
+```
+```r
 # lets look at variable importance 
 var.imp <- maxentVarImp(opt.mod.obj)
 print(var.imp)
