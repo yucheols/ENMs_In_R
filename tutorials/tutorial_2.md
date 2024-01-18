@@ -76,6 +76,25 @@ print(envs)
 plot(envs[[1]])
 ```
 
+Let's have a look at the console output for the RasterStack object "envs". We can see that it's a single object containing 22 raster layers. We can also see that its designated Coordinate Reference System (CRS) is WGS84 ("+datum=WGS84"), that each raster pixel has a spatial resolution of 0.008333333 dd (decimal degrees), and that it's got a spatial extent. These information are critical for spatial modeling. 
+```r
+> print(envs)
+class      : RasterStack 
+dimensions : 1188, 811, 963468, 22  (nrow, ncol, ncell, nlayers)
+resolution : 0.008333333, 0.008333333  (x, y)
+extent     : 124.1833, 130.9417, 33.10833, 43.00833  (xmin, xmax, ymin, ymax)
+crs        : +proj=longlat +datum=WGS84 +no_defs 
+names      :        bio1,       bio10,       bio11,       bio12,       bio13,       bio14,       bio15,       bio16,       bio17,       bio18,       bio19,        bio2,        bio3,        bio4,        bio5, ... 
+min values :   -5.445834,    0.000000,  -21.283333,  560.000000,  131.000000,    2.000000,   25.804571,  323.000000,   11.000000,  139.000000,   11.000000,    1.000000,   16.278376,    0.000000,    0.500000, ... 
+max values :   16.137501,   25.400000,    7.766667, 2209.000000,  402.000000,   81.000000,  111.652588, 1031.000000,  255.000000,  987.000000,  303.000000,   14.250000,  100.000000, 1356.491943,   31.299999, ...
+```
+
+Now plotting out the first layer within the "envs" RasterStack (which is the "bio1" layer), we get:
+![envs](https://github.com/yucheols/ENMs_In_R/assets/85914125/21d01941-bf00-4bdc-9206-7189570bfa1e)
+
+Looks pretty good!
+
+
 You may want to export your processed rasters for later use, for example, and you can do this like so:
 ```r
 ### optional ::: you can choose to export the processed layers
