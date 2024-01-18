@@ -3,7 +3,7 @@
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
 
-## 1. Set up the working directory
+## Part 0. Setting up the working directory
 Before diving in, we need to setup an environment to run the codes.
 
 1) First, make sure to have both R and RStudio installed in your laptop.
@@ -13,7 +13,7 @@ Before diving in, we need to setup an environment to run the codes.
 5) Now you will be working within this directory for this workshop. 
 
 
-## 2. Load packages and prepare environmental data
+## Part 1. Load packages and prepare environmental data
 The terra and raster packages are for raster data handling in R, dplyr is for data frame manipulation and filtering, SDMtune is used for core model fitting and predictions, 
 ENMeval is used to generate cross-validation folds, and rasterVis and ggplot2 packages are used for plotting model outputs in R.
 
@@ -75,9 +75,8 @@ for (i in 1:nlayers(envs)) {
 }
 ```
 
-## 3. Occurrence data collection
+## Part 2. Occurrence data collection
 ```r
-#####  PART 2 ::: occurrence data  #####
 # there are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the 
 # data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation:
 # https://github.com/brshipley/megaSDM
@@ -96,7 +95,7 @@ colnames(occs) = c('species', 'long', 'lat')
 head(occs)
 ```
 
-## 4. Background data sampling
+## Part 3. Background data sampling
 ```r
 bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
 points(bg, col = 'blue')
@@ -105,17 +104,15 @@ head(bg)
 colnames(bg) = colnames(occs[, c(2,3)])
 ```
 
-## 5. Variable selection
-
-## 6. Data partitioning for model evaluation
+## Part 4. Data partitioning for model evaluation
 ```r
 cvfolds <- ENMeval::get.randomkfold(occs = occs, bg = bg, kfolds = 10)
 ```
 
-## 7. Model tuning and optimal model selection
+## Part 5. Fitting candidate models and selecting the optimal model
 
 
-## 8. Response curves
+## Part 6. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. This will print out a ggplot-style output:
 ```r
 plotResponse(model = opt.mod.obj, var = 'bio2', type = 'cloglog')
@@ -181,7 +178,7 @@ Running the code above will produce a plot that looks loke this:
 ![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/ee59712a-b27d-4a49-b811-dbb60da4b78a)
 
 
-## 9. Model prediction
+## Part 7. Model prediction
 Now that we have our fitted MaxEnt model, we can now make landscape predictions!
 
 ```r
@@ -214,6 +211,6 @@ This will produce a figure that looks like this:
 
 
 ## n. Model extrapolation
-Here we will project the fitted model to the environmental conditions of California. This is an ecologically meaningless exercise but we will try this nonetheless to illustrate the concept of model transfer.
+
 
 
