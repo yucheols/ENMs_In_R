@@ -171,10 +171,13 @@ points(occs)
 
 ![points](https://github.com/yucheols/ENMs_In_R/assets/85914125/a9f48704-e2db-4aa3-8eed-3cf86935f018)
 
+
 Let's take a note here. See how the occurrence points are clustered in R. Korea but pretty much absent in D.P.R. Korea? We will get back to this later in this tutorial and in the next one to illustrate an important consideration to make while running ENMs. 
 
 ## Part 3. Background data sampling
 Now that we have the occurrence data prepared, we also need to have some background points to go with it. For this first tutorial, I will go ahead and sample 10,000 random background points. This is done pretty easily using the "randomPoints()" function of the dismo package. 
+
+
 
 ```r
 bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs, excludep = T) %>% as.data.frame()
