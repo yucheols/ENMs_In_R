@@ -97,7 +97,6 @@ Looks pretty good!
 
 Optional: you may want to export your processed rasters for later use and you can do this like so:
 ```r
-### optional ::: you can choose to export the processed layers
 for (i in 1:nlayers(envs)) {
   layer <- envs[[i]]
   file_name <- paste0('env_processed/', names(envs)[i], '.tif')
