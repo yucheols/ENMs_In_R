@@ -169,14 +169,23 @@ plot(envs[[1]])
 points(occs)
 ```
 
+![points](https://github.com/yucheols/ENMs_In_R/assets/85914125/a9f48704-e2db-4aa3-8eed-3cf86935f018)
+
+
+
 ## Part 3. Background data sampling
 ```r
 bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
 points(bg, col = 'blue')
+```
+![bg](https://github.com/yucheols/ENMs_In_R/assets/85914125/0354fa64-07f0-41a4-ba5a-cb8be130fd1a)
 
+
+```r
 head(bg)
 colnames(bg) = colnames(occs[, c(2,3)])
 ```
+
 
 ## Part 4. Data partitioning for model evaluation
 ```r
