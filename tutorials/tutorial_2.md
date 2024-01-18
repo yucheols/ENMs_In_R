@@ -268,7 +268,7 @@ In addition to AUC, you may want to calculate TSS. You can do this like so:
 tss(model = opt.mod.obj, test = T)
 ```
 
-##### Lets look at variable importance
+#### Lets look at variable importance
 ```r 
 var.imp <- maxentVarImp(opt.mod.obj)
 ```
