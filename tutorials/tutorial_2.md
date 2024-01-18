@@ -95,7 +95,7 @@ Now plotting out the first layer within the "envs" RasterStack (which is the "bi
 Looks pretty good!
 
 
-You may want to export your processed rasters for later use, for example, and you can do this like so:
+Now you may want to export your processed rasters for later use and you can do this like so:
 ```r
 ### optional ::: you can choose to export the processed layers
 for (i in 1:nlayers(envs)) {
