@@ -40,17 +40,18 @@ dir.create('land')
 In the "climate" directory we will put climate rasters, in the "topo" directory we will put topographical variables (e.g. slope, elevation), and in the "land" directory we will put land cover/vegetation variables. 
 
 
-```r
-### first, we will import a polygon file for the Korean Peninsula to process our environmental layers
-poly <- sf::st_read('poly/kor_mer.shp')
 
-### now we will import, crop, and mask our layers
+First, we will import a polygon file for the Korean Peninsula to process our environmental layers
+```r
+poly <- sf::st_read('poly/kor_mer.shp')
+```
+
+Now we will import, crop, and mask our layers
+```r
 # climate
 clim <- raster::stack(list.files(path = 'climate', pattern = '.tif$', full.names = T))  # import
 clim <- raster::crop(clim, extent(poly))                            # crop == crop to geographic extent
 clim <- mask(clim, poly)                            # mask == cut along the polygon boundary ("cookie cutter")
-
-plot(clim[[1]]) # It is always a good idea to plot out the processed layer(s)
 
 # topo
 topo <- raster::stack(list.files(path = 'topo', pattern = '.tif$', full.names = T))
@@ -61,12 +62,22 @@ topo <- mask(topo, poly)
 land <- raster('land/mixed_other.tif')
 land <- crop(land, extent(poly))
 land <- mask(land, poly)
+```
 
-### stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
+
+stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
+```r
 envs <- raster::stack(clim, topo, land)
+```
+
+It is always a good idea to print out your object on the console and actually plotting it out.By doing so you can check if all the necessary information for modeling is there (e.g. CRS)
+```r
 print(envs)
 plot(envs[[1]])
+```
 
+You may want to export your processed rasters for later use, for example, and you can do this like so:
+```r
 ### optional ::: you can choose to export the processed layers
 for (i in 1:nlayers(envs)) {
   layer <- envs[[i]]
@@ -74,7 +85,6 @@ for (i in 1:nlayers(envs)) {
   writeRaster(layer, filename = file_name, overwrite = T)
 }
 ```
-
 ## Part 2. Occurrence data collection
 There are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation: https://github.com/brshipley/megaSDM
 
