@@ -105,7 +105,7 @@ for (i in 1:nlayers(envs)) {
 }
 ```
 
-Now we will remove highly corrleated variables from the RasterStack. This can be done in several different ways and in several different packages. For example, in SDMtune (the package we will be using for modeling), there are functions for variable selection. Here we will focus on the most basic method involving a Pearson's correlation test and excluding variables above a certain collinearity cutoff (usually |r| > 0.7). But I encourage you to explore other methods as well.   
+Now we will remove highly corrleated variables from our RasterStack. This can be done in several different ways and in several different packages. For example, in SDMtune (the package we will be using for modeling), there are functions for variable selection. Here we will focus on the most basic method involving a Pearson's correlation test and excluding variables above a certain collinearity cutoff (usually |r| > 0.7). But I encourage you to explore other methods as well.   
 
 ```r
 # make correlation table first
@@ -121,6 +121,20 @@ print(find_cor)
 envs <- dropLayer(envs, sort(find_cor))
 print(envs)
 ```
+Printing out the "reduced" RasterStack, we can see that 15 highly correlated rasters have been removed from the initial set of 22 variables (nlayers = 7).
+
+```r
+> print(envs)
+class      : RasterStack 
+dimensions : 1188, 811, 963468, 7  (nrow, ncol, ncell, nlayers)
+resolution : 0.008333333, 0.008333333  (x, y)
+extent     : 124.1833, 130.9417, 33.10833, 43.00833  (xmin, xmax, ymin, ymax)
+crs        : +proj=longlat +datum=WGS84 +no_defs 
+names      :      bio15,      bio18,       bio2,       bio3,       elev,      slope, mixed_other 
+min values :   25.80457,  139.00000,    1.00000,   16.27838,  -26.00000,    0.00000,     0.00000 
+max values :  111.65259,  987.00000,   14.25000,  100.00000, 2503.50000,   37.96877,   100.00000 
+```
+
 
 ## Part 2. Occurrence data collection
 There are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation: https://github.com/brshipley/megaSDM
