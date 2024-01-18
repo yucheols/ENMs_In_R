@@ -41,12 +41,12 @@ In the "climate" directory we will put climate rasters, in the "topo" directory 
 
 
 
-First, we will import a polygon file for the Korean Peninsula to process our environmental layers
+To get our models, we first need to cut the global-scale layers into the modeling extent we need. So we will import a polygon file for the Korean Peninsula to process our environmental layers.
 ```r
 poly <- sf::st_read('poly/kor_mer.shp')
 ```
 
-Now we will import, crop, and mask our layers
+Now we will import, crop, and mask our layers.
 ```r
 # climate
 clim <- raster::stack(list.files(path = 'climate', pattern = '.tif$', full.names = T))  # import
@@ -65,18 +65,18 @@ land <- mask(land, poly)
 ```
 
 
-stack into one object == use "c()" for the terra equivalent of the "raster::stack()"
+We will then stack these layers into a single object. In the raster package you can achieve this with the "stack()" function, which will create an object of the class "RasterSatck". If you are using the terra package, use "c()" instead of "stack()"
 ```r
 envs <- raster::stack(clim, topo, land)
 ```
 
-It is always a good idea to print out your object on the console and actually plotting it out.By doing so you can check if all the necessary information for modeling is there (e.g. CRS)
+It is always a good idea to print out your object on the console and actually plotting it out. By doing so you can check if all the necessary information for modeling is there (e.g. CRS).
 ```r
 print(envs)
 plot(envs[[1]])
 ```
 
-Let's have a look at the console output for the RasterStack object "envs". We can see that it's a single object containing 22 raster layers. We can also see that its designated Coordinate Reference System (CRS) is WGS84 ("+datum=WGS84"), that each raster pixel has a spatial resolution of 0.008333333 dd (decimal degrees), and that it's got a spatial extent. These information are critical for spatial modeling. 
+Let's have a look at the console output for the RasterStack object "envs". We can see that it's a single object containing 22 raster layers. We can also see that its designated Coordinate Reference System (CRS) is WGS84 ("+datum=WGS84"), that each raster pixel has a spatial resolution of 0.008333333 dd (decimal degrees), and that it's got a spatial extent. These information are critical for spatial modeling. We also get the minimium and maximum cell values for each raster layer.
 ```r
 > print(envs)
 class      : RasterStack 
@@ -104,6 +104,24 @@ for (i in 1:nlayers(envs)) {
   writeRaster(layer, filename = file_name, overwrite = T)
 }
 ```
+
+Now we will remove highly corrleated variables from the RasterStack. This can be done in several different ways and in several different packages. For example, in SDMtune (the package we will be using for modeling), there are functions for variable selection. Here we will focus on the most basic method involving a Pearson's correlation test and excluding variables above a certain collinearity cutoff (usually |r| > 0.7). But I encourage you to explore other methods as well.   
+
+```r
+# make correlation table first
+envs_df <- envs %>% as.data.frame() %>% na.omit()
+cor_mat <- cor(envs_df, method = 'pearson')
+print(cor_mat)
+
+# remove highly correlated using cutoff of |r| < 0.7
+find_cor <- caret::findCorrelation(cor_mat, cutoff = abs(0.7)) 
+print(find_cor)
+
+# drop highly correlated layers
+envs <- dropLayer(envs, sort(find_cor))
+print(envs)
+```
+
 ## Part 2. Occurrence data collection
 There are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation: https://github.com/brshipley/megaSDM
 
