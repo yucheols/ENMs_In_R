@@ -354,7 +354,7 @@ Running the code above will produce a plot that looks loke this:
 
 
 ## Part 7. Model prediction
-Now that we have our fitted MaxEnt model, we can now make landscape predictions!
+Now that we have our fitted MaxEnt model, we can now make landscape predictions! We will use the internal SDMtune function ("predict()") to get our model prediction raster. Be sure to not use the base R function of the same name (this will throw out an error). You can specify that you're using the SDMtune function by writing "SDMtune::predict()" 
 
 ```r
 pred <- SDMtune::predict(object = opt.mod.obj, data = envs, type = 'cloglog', clamp = T, progress = T) %>% raster()
@@ -407,6 +407,35 @@ writeRaster(pred, 'output_rast/pred.tif')
 ```
 
 ## 8. Model extrapolation
+We will spatially project our fitted model to Japan. Let's first import the projection layers. You can prepare the projection layers following the same steps we went through for our initial layer prep. Here, I will just import the projection layers I already prepared to save time.
 
+```r
+proj.envs <- raster::stack(list.files(path = 'proj_envs', pattern = '.tif$', full.names = T))
+names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elev', 'mixed_other', 'slope')
 
+plot(proj.envs[[1]])
+```
+
+For projection we just use the "SDMtune::predict()" function like we did the first time. But here we will provide our projection layers for the "data" argument.
+
+```r
+spat.proj <- SDMtune::predict(object = opt.mod.obj, data = terra::rast(proj.envs), 
+                              type = 'cloglog', clamp = T, progress = T) %>% raster()
+```
+
+Lets plot out the model.
+![proj](https://github.com/yucheols/ENMs_In_R/assets/85914125/801b0272-45d7-4df7-a3f4-1351a6863fa2)
+
+We can also do a ggplot-style plot:
+```r
+gplot(spat.proj) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+```
+![proj_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/d8c2d744-e18c-4eda-ba65-ac0cff09f501)
 
