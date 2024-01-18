@@ -160,7 +160,7 @@ tss(model = opt.mod.obj, test = T)
 # lets look at variable importance 
 var.imp <- maxentVarImp(opt.mod.obj)
 print(var.imp)
-```r
+```
 
 ## Part 6. Response curves
 With SDMtune you can get a response curve for each variable using the "plotResponse()" function. This will print out a ggplot-style output:
