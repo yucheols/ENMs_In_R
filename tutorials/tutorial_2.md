@@ -421,9 +421,12 @@ For projection we just use the "SDMtune::predict()" function like we did the fir
 ```r
 spat.proj <- SDMtune::predict(object = opt.mod.obj, data = terra::rast(proj.envs), 
                               type = 'cloglog', clamp = T, progress = T) %>% raster()
+
+# Lets plot out the model
+plot(spat.proj)
 ```
 
-Lets plot out the model.
+
 ![proj](https://github.com/yucheols/ENMs_In_R/assets/85914125/801b0272-45d7-4df7-a3f4-1351a6863fa2)
 
 We can also do a ggplot-style plot:
