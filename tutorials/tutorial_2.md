@@ -76,11 +76,9 @@ for (i in 1:nlayers(envs)) {
 ```
 
 ## Part 2. Occurrence data collection
-```r
-# there are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the 
-# data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation:
-# https://github.com/brshipley/megaSDM
+There are several ways to extract the occurrence data. But here we will use the megaSDM package to quickly scrape the data from GBIF. NOTE: you may need to install this package. Refer to the following link for instructions for installation: https://github.com/brshipley/megaSDM
 
+```r
 # collect occurrence points
 megaSDM::OccurrenceCollection(spplist = c('Bufo stejnegeri'), output = 'occs',
                               trainingarea = extent(envs[[1]]))
