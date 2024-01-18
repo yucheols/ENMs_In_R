@@ -250,7 +250,7 @@ The above code actually takes quite a bit to run...(~ 40 minutes), so for the pu
 find.mod <- readr::read_rds('models/models.rds')
 ```
 
-Now select the optimal model. This can also be done in several different ways and by applying different criteria. Here we will select the model with maximum test AUC
+Now select the optimal model. This can also be done in several different ways and by applying different criteria. Here we will select the model with maximum test AUC (AUC calculated from the testing data). 
 ```r
 opt.mod <- find.mod@results %>% filter(test_AUC == max(test_AUC))
 print(opt.mod)
