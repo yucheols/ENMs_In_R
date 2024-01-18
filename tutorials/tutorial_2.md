@@ -154,6 +154,21 @@ colnames(occs) = c('species', 'long', 'lat')
 head(occs)
 ```
 
+Now let's spatially thin the occurrence points. We can use the internal SDMtune function "thinData()", but this method matches the thinning distance to the pixel size of input raster layers. So, we may want to have more freedom with the selection of thinning distance. For that we can use the "humboldt.occ.rarefy()" function in the humboldt package. Also check out the "spThin" package.
+
+Since our raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data to 215 point. We will thin the data first using the humboldt function and then remove NAs (points falling on the pixels with no data values) using the thinData function of SDMtune.
+
+```r
+occs <- humboldt::humboldt.occ.rarefy(in.pts = occs, colxy = 2:3, rarefy.dist = 10, rarefy.units = 'km', run.silent.rar = F)
+occs <- thinData(coords = occs[, c(2,3)], env = terra::rast(envs), x = 'long', y = 'lat', verbose = T)
+```
+
+As with the raster data, it is always a good idea to plot out the occurrence points on the map 
+```r
+plot(envs[[1]])
+points(occs)
+```
+
 ## Part 3. Background data sampling
 ```r
 bg <- dismo::randomPoints(mask = envs[[1]], n = 10000, p = occs[, c(2,3)], excludep = T) %>% as.data.frame()
