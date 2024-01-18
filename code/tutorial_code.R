@@ -18,8 +18,9 @@ library(ENMeval)
 library(rasterVis)
 library(ggplot2)
 library(sf)
+library(pals)
 
-## Other than the packages above, make sure to have "humboldt", "sf", "caret" packages installed .
+## Other than the packages above, make sure to have "humboldt", "sf", "caret", and "pals" packages installed .
 
 ## Note on the usage of the "raster" package ::: Since SDMtune accepts SpatRaster objects created from the terra package, 
 ## we really don't need to rely on the raster package. But the exclusive use of terra package is producing some weird errors 
@@ -260,3 +261,70 @@ gplot(pred) +
                        name = 'Suitability') +
   xlab('Long') + ylab('Lat') +
   theme_dark()
+
+# If you want to make the figures using dedicated GIS softwares instead of doing it in R, you can do so by exporting the output
+# prediction as a raster.
+writeRaster(pred, 'output_rast/pred.tif')
+
+
+#####  PART 8 ::: Model extrapolation  #####
+# we will spatially project our fitted model to Japan
+# lets import the projection layers. You can prepare the projection layers following the same steps we went through 
+# for our initial layer prep.
+
+# Here, I will just import the projection layers I already prepared to save time
+proj.envs <- raster::stack(list.files(path = 'proj_envs', pattern = '.tif$', full.names = T))
+names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elev', 'mixed_other', 'slope')
+
+plot(proj.envs[[1]])
+
+# For projection we just use the "SDMtune::predict()" function like we did the first time. But here we will provide
+# our projection layers for the "data" argument
+spat.proj <- SDMtune::predict(object = opt.mod.obj, data = terra::rast(proj.envs), 
+                              type = 'cloglog', clamp = T, progress = T) %>% raster()
+
+# Lets plot out the model
+plot(spat.proj)
+
+# ggplot style
+gplot(spat.proj) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+
+
+# Since we are predicting the model to a different area than used to train our model, there might be some extrapolation happening
+# with our prediction. When extrapolation happens, this essentially means that the model is predicting to the values outside the range
+# of values of the original data. Habitat suitability predicted in areas with high extrapolation should be interpreted with caution.
+
+# But how do we assess extrapolation risk? one way to do it is by calculating MESS (Multivariate Environmental Similarity Surface). 
+# This can be done using the dismo package
+
+# Let's prepare data for MESS. We first need our projection layers
+print(proj.envs)
+
+# We also need "reference values" extracted from the layers used for original model calibration
+print(envs)
+
+ref.val <- raster::extract(envs, occs) %>% as.data.frame()
+head(ref.val)
+
+# Let's run MESS
+mess <- dismo::mess(x = proj.envs, v = ref.val, full = F)
+plot(mess$mess)
+
+# Let's plot the MESS raster. You need the pals package loaded to be able to use the "ocean.thermal" palette.
+gplot(mess$mess) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = as.vector(ocean.thermal(22)),
+                       na.value = 'transparent',
+                       name = 'MESS',
+                       breaks = c(-10, -260),
+                       labels = c('Low', 'High')) +
+  xlab('Long') + ylab('Lat')
+  
