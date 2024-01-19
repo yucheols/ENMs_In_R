@@ -3,6 +3,9 @@
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
 
+#### Using target-group background sampling to compensate for the spatial sampling bias of occurrence points.
+
+Load packages
 ```r
 library(raster)
 library(MASS)
@@ -26,14 +29,14 @@ Let's collect occurrence points for our "target group". Since B. stejnegeri is a
 
 To easily collect our occurrence points, we will again use the megaSDM package.
 
-NOTE: I need to run the three lines below to prevent encoding error from halting the occurrence collection process. But you may not need to run this on this your own device 
+NOTE: I need to run the three lines below to prevent encoding error from halting the occurrence collection process. But you may not need to run this on this your own device. 
 ```r
 Sys.getlocale()
 Sys.setlocale("LC_CTYPE", ".1251")
 Sys.getlocale()
 ```
 
-Make a list of species as an input for the megaSDM function
+Make a list of species as an input for the megaSDM function.
 ```r
 spplist <- c('Bombina orientalis', 
              'Bufo sachalinensis',
@@ -61,7 +64,7 @@ spplist <- c('Bombina orientalis',
              'Rana huanrenensis')
 ```
 
-Collect occurrences
+Collect occurrences.
 ```r
 targ.pts <- OccurrenceCollection(spplist = spplist,
                                  output = 'bg',
@@ -77,7 +80,7 @@ colnames(targ.pts) = c('species', 'long', 'lat')
 head(targ.pts)
 ```
 
-Let's thin this down with 1km thinning distance
+Let's thin this down with 1km thinning distance.
 ```r
 targ.thin <- thinData(coords = targ.pts[, c(2,3)], env = terra::rast(envs[[1]]), x = 'long', y = 'lat', verbose = T, progress = T)
 
@@ -86,7 +89,7 @@ plot(envs[[1]])
 points(targ.thin, col = 'blue')
 ```
 
-And now turn this into a kernel density raster. This is the "bias file" used in the MaxEnt GUI
+And now turn this into a kernel density raster. This is the "bias file" used in the MaxEnt GUI.
 ```r
 ras <- rasterize(targ.thin, envs, 1)
 plot(ras)
@@ -104,7 +107,7 @@ bias.layer <- mask(kde.ras2, poly)
 plot(bias.layer)
 ```
 
-Sample bias-corrected background points from this "bias file"
+Sample bias-corrected background points from this "bias file".
 ```r
 bg2 <- xyFromCell(bias.layer,
                   sample(which(!is.na(values(subset(envs, 1)))), 10000,
@@ -114,7 +117,7 @@ colnames(bg2) = colnames(occs)
 head(bg2)
 ```
 
-Let's see how the background selection has changed compared to the random background
+Let's see how the background selection has changed compared to the random background.
 ```r
 par(mfrow = c(1,2))
 
@@ -124,6 +127,10 @@ points(bg, col = 'blue')
 plot(envs[[1]], main = 'Bias-corrected', axes = F, legend = F)
 points(bg2, col = 'blue')
 ```
+![compareBg](https://github.com/yucheols/ENMs_In_R/assets/85914125/bd9d129c-0661-4615-b6fb-6d926fae4982)
+
+
+
 
 Now we will fit a MaxEnt model with the same feature and regularization as the model we've made in the previous tutorial. That model was made from LQHP features + regularization of 1.
 
