@@ -3,9 +3,9 @@
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
 
-#### Using target-group background sampling to compensate for the spatial sampling bias of occurrence points.
+### Using target-group background sampling to compensate for the spatial sampling bias of occurrence points.
 
-Load packages
+Load packages.
 ```r
 library(raster)
 library(MASS)
