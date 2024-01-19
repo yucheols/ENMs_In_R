@@ -8,6 +8,7 @@ library(tidyverse)
 ## before going any further, let's check the data we are recycling from the previous tutorial.
 print(envs)
 print(occs)
+print(poly)
 
 ## Let's collect occurrence points for our "target group". Since B. stejnegeri is an amphibian, we will use the total amphibian occurrence
 ## points recorded from the Korean Peninsula. This will serve as a proxy of the overall sampling effort for amphibians across the 
@@ -69,5 +70,20 @@ targ.thin <- thinData(coords = targ.pts[, c(2,3)], env = terra::rast(envs[[1]]),
 plot(envs[[1]])
 points(targ.thin, col = 'blue')
 
-## turn this into a kernel density raster
-kde <- kde2d()
+## turn this into a kernel density raster. This is the "bias file" used in the MaxEnt GUI
+ras <- rasterize(targ.thin, envs, 1)
+plot(ras)
+
+pres <- which(values(ras) == 1)
+locs <- coordinates(ras)[pres, ]
+
+kde <- kde2d(locs[, 1], locs[, 2],
+             n = c(nrow(ras), ncol(ras)),
+             lims = c(extent(envs)[1], extent(envs)[2], extent(envs)[3], extent(envs)[4]))
+
+kde.ras <- raster(kde, envs)
+kde.ras2 <- resample(kde.ras, envs)
+bias.layer <- mask(kde.ras2, poly)
+plot(bias.layer)
+
+
