@@ -1,9 +1,13 @@
 #######  bias correction
+library(raster)
 library(MASS)
 library(megaSDM)
 library(plyr)
 library(dplyr)
-library(tidyverse)
+library(readr)
+library(SDMtune)
+library(rasterVis)
+library(ggplot2)
 
 ## before going any further, let's check the data we are recycling from the previous tutorial.
 print(envs)
@@ -86,4 +90,52 @@ kde.ras2 <- resample(kde.ras, envs)
 bias.layer <- mask(kde.ras2, poly)
 plot(bias.layer)
 
+## sample bias corrected background points
+bg2 <- xyFromCell(bias.layer,
+                  sample(which(!is.na(values(subset(envs, 1)))), 10000,
+                         prob = values(bias.layer)[!is.na(values(subset(envs, 1)))])) %>% as.data.frame()
 
+colnames(bg2) = colnames(occs)
+head(bg2)
+
+## Let's see how the background selection has changed compared to the random background
+par(mfrow = c(1,2))
+
+plot(envs[[1]], main = 'Random', axes = F, legend = F)
+points(bg, col = 'blue')
+
+plot(envs[[1]], main = 'Bias-corrected', axes = F, legend = F)
+points(bg2, col = 'blue')
+
+
+## Now we will fit a MaxEnt model with the same feature and regularization as the model we've made in the previous tutorial.
+## That model was made from LQHP features + regularization of 1
+
+## Let's partition the data
+cvfolds2 <- ENMeval::get.randomkfold(occs = occs, bg = bg2, kfolds = 10)
+
+## Let's prepare our SWD object
+sp.data2 <- prepareSWD(species = 'Bufo stejnegeri', env = terra::rast(envs), p = occs, a = bg2, verbose = T)
+
+## Let's fit the model
+bias.cor.mod <- SDMtune::train(method = 'Maxent', data = sp.data2, folds = cvfolds2, fc = 'lqhp', reg = 1.0,
+                               progress = T, iter = 5000, type = 'cloglog')
+
+## prediction
+bias.cor.pred <- SDMtune::predict(object = bias.cor.mod, data = terra::rast(envs), type = 'cloglog', clamp = T, progress = T) %>% raster()
+plot(bias.cor.pred)
+
+## lets compare this model side-by-side with the previous model
+preds <- raster::stack(pred, bias.cor.pred)
+names(preds) = c('Random', 'Bias-corrected')
+
+gplot(preds) +
+  facet_wrap(~ variable) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = 'transparent',
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
