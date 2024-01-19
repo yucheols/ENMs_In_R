@@ -1,4 +1,4 @@
-# ENMs in R hands-on practical session: Tutorial 2
+# ENMs in R hands-on practical session: Tutorial 3
 #### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Republic of Korea)
 Feb dd 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
@@ -106,6 +106,10 @@ kde.ras2 <- resample(kde.ras, envs)
 bias.layer <- mask(kde.ras2, poly)
 plot(bias.layer)
 ```
+
+Let's have a quick look at what this "bias file" looks like:
+
+
 ![bias_layer](https://github.com/yucheols/ENMs_In_R/assets/85914125/f30372d9-cc32-489c-b3d0-61b05d1b1302)
 
 
