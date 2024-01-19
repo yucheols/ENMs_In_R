@@ -106,6 +106,9 @@ kde.ras2 <- resample(kde.ras, envs)
 bias.layer <- mask(kde.ras2, poly)
 plot(bias.layer)
 ```
+![bias_layer](https://github.com/yucheols/ENMs_In_R/assets/85914125/f30372d9-cc32-489c-b3d0-61b05d1b1302)
+
+
 
 Sample bias-corrected background points from this "bias file".
 ```r
@@ -171,3 +174,4 @@ gplot(preds) +
   xlab('Long') + ylab('Lat') +
   theme_dark()
 ```
+![preds_compare](https://github.com/yucheols/ENMs_In_R/assets/85914125/4a65cdba-eaaa-490e-a2f1-86dfcd15e4ce)
