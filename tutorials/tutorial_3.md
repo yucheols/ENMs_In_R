@@ -70,7 +70,7 @@ targ.pts <- OccurrenceCollection(spplist = spplist,
                                  output = 'bg',
                                  trainingarea = extent(envs[[1]]))
 
-Let's compile the occurrence points into a single dataframe
+## Let's compile the occurrence points into a single dataframe
 targ.pts <- list.files(path = 'bg', pattern = '.csv', full.names = T) %>%
   lapply(read_csv) %>%
   rbind.fill %>%
