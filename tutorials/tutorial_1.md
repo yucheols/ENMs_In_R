@@ -5,7 +5,7 @@ Feb dd 2024
 
 
 ## 1. Before we start: Why run ENMs in R?
-Let's start our session by asking this question: Why run ENMs in R? After all, it seems pretty difficult (and indeed intimidating) to write codes to run the models instead of using other available softwares. At least that's how I felt when I started learning ENMs. So I started by learning the MaxEnt Java software (MaxEnt GUI). It is a point-and-click sofware that is user-friendly and easy to use. 
+Let's start our session by asking this question: Why run ENMs in R? After all, it seems pretty difficult (and indeed intimidating) to write codes to run the models instead of using other available softwares. At least that's how I felt when I started learning ENMs. So I started by learning the MaxEnt Java software (MaxEnt GUI). It is a point-and-click sofware that is user-friendly and easy to use. It looks something like this:
 
 ![mxgui](https://github.com/yucheols/ENMs_In_R/assets/85914125/9ab54b80-ac74-4c1c-88fe-d01dffbeac85)
 
