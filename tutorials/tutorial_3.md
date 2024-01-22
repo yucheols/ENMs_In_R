@@ -179,3 +179,5 @@ gplot(preds) +
   theme_dark()
 ```
 ![preds_compare](https://github.com/yucheols/ENMs_In_R/assets/85914125/4a65cdba-eaaa-490e-a2f1-86dfcd15e4ce)
+
+We can see that model prediction in D.P.R. Korea is significantly improved in the bias-corrected model (right) compared to the model using random background points (left).
