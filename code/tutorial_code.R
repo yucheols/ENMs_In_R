@@ -264,7 +264,7 @@ gplot(pred) +
 
 # If you want to make the figures using dedicated GIS softwares instead of doing it in R, you can do so by exporting the output
 # prediction as a raster.
-writeRaster(pred, 'output_rast/pred.tif')
+writeRaster(pred, 'output_rast/pred.tif', overwrite = T)
 
 
 #####  PART 8 ::: Model extrapolation  #####
