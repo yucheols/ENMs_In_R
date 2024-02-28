@@ -5,9 +5,15 @@ Feb dd 2024
 
 
 ## 1. Before we start: Why run ENMs in R?
-Let's start our session by asking this question: Why run ENMs in R? After all, it seems pretty difficult (and indeed intimidating) to write codes to run the models instead of using other available softwares. At least that's how I felt when I started learning ENMs. So I started by learning the MaxEnt Java software (MaxEnt GUI). It is a point-and-click sofware that is user-friendly and easy to use. It was great. But then there were some persistent issues that bothered me. First, I had to jump between three different softwares to prepare the data. First, I had to use GIS to crop the raster data and convert it into an ASCII format (because the MaxEnt GUI does not recognize the regular GeoTIFF rasters). And I then needed R to sample background data and fix errors in the ASCII files if there were any. Then I would use the MaxEnt GUI to run the models and then again go to GIS to plot the model outputs.
+Let's start our session by asking this question: Why run ENMs in R? After all, it seems pretty difficult (and indeed intimidating) to write codes to run the models instead of using other available softwares. At least that's how I felt when I started learning ENMs. So I started by learning the MaxEnt Java software (MaxEnt GUI). It is a point-and-click sofware that is user-friendly and easy to use. It looks something like this:
 
-This was okay at first, but it quicky became frustrating, and small inconsistencies between softwares really annoyed me. In addition, some of the published model evaluation strategies were simply not available in the MaxEnt GUI. So at that point I decided to learn how to run ENMs in R. I do not regret this decision one bit.
+![mxgui](https://github.com/yucheols/ENMs_In_R/assets/85914125/9ab54b80-ac74-4c1c-88fe-d01dffbeac85)
+
+
+
+It was great. But then there were some persistent issues that bothered me. First, I had to jump between three different softwares to prepare the data. First, I had to use GIS to crop the raster data and convert it into an ASCII format (because the MaxEnt GUI does not recognize the regular GeoTIFF rasters). And I then needed R to sample background data and fix errors in the ASCII files if there were any. Then I would use the MaxEnt GUI to run the models and then again go to GIS to plot the model outputs.
+
+This was okay at first, but it quicky became frustrating, and small inconsistencies between softwares really strated to annoy me. In addition, some of the published model evaluation strategies were simply not available in the MaxEnt GUI. So at that point I decided to learn how to run ENMs in R. I do not regret this decision one bit.
 
 This is my personal story, but also on a practical note, now there are TONS of ENM packages in R to choose from, and new ones are still being published. And the vast libraries of R mean that you can do spreadsheet handling, GIS, modeling, plotting, and other associated analyses in one integrated environment. Also, since you are the one doing the coding, you can customize your workflow in a way that is most convenient to you. 
 
