@@ -1,4 +1,6 @@
 #######  bias correction
+# be sure to use the raster package here instead of terra == this is because of the use of "OccurrenceCollection" function 
+# in the megaSDM package
 library(raster)
 library(MASS)
 library(megaSDM)
@@ -67,7 +69,7 @@ targ.pts <- list.files(path = 'bg', pattern = '.csv', full.names = T) %>%
 colnames(targ.pts) = c('species', 'long', 'lat')
 head(targ.pts)
 
-## Let's thin this down with 1km thinning distance
+## Let's thin this down with 1km thinning distance == reload enviornmental data if you see errors
 targ.thin <- thinData(coords = targ.pts[, c(2,3)], env = terra::rast(envs[[1]]), x = 'long', y = 'lat', verbose = T, progress = T)
 
 ## Plot it out
