@@ -61,5 +61,5 @@ tutorials/
 #bg/
 misc/
 models/
-proj_envs/
+#proj_envs/
 GUI_run/
