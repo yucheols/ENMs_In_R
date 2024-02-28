@@ -51,7 +51,7 @@ rsconnect/
 
 output_rast/
 output_fig/
-climate/
+#climate/
 topo/
 land/
 env_processed/
