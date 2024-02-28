@@ -57,7 +57,7 @@ land/
 env_processed/
 tutorials/
 poly/
-occs/
+#occs/
 bg/
 misc/
 models/
