@@ -28,6 +28,8 @@ Sys.getlocale()
 Sys.setlocale("LC_CTYPE", ".1251")
 Sys.getlocale()
 
+## Run this code ONCE to create a folder to put that background points in
+#dir.create('bg')
 
 # make a list of species as an input for the megaSDM function
 spplist <- c('Bombina orientalis', 

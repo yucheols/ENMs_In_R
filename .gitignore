@@ -49,17 +49,17 @@ po/*~
 rsconnect/
 
 
-output_rast/
+#output_rast/
 output_fig/
-climate/
-topo/
-land/
-env_processed/
+#climate/
+#topo/
+#land/
+#env_processed/
 tutorials/
-poly/
-occs/
+#poly/
+#occs/
 bg/
 misc/
 models/
-proj_envs/
+#proj_envs/
 GUI_run/
