@@ -56,7 +56,7 @@ topo/
 land/
 env_processed/
 tutorials/
-poly/
+#poly/
 #occs/
 #bg/
 misc/
