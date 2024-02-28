@@ -51,10 +51,10 @@ rsconnect/
 
 output_rast/
 output_fig/
-#climate/
+climate/
 topo/
 land/
-env_processed/
+#env_processed/
 tutorials/
 #poly/
 #occs/
