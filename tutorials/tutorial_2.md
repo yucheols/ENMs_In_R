@@ -1,6 +1,6 @@
 # ENMs in R hands-on practical session: Tutorial 2
 #### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Republic of Korea)
-Feb dd 2024
+28 Feb 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
 
 ## Part 0. Setting up the working directory
