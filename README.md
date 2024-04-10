@@ -1,4 +1,4 @@
-# ENMs_In_R
+# Ecological niche modeling in R
 ENMs in R hands-on workshop @NJFU Lab. of Animal Behaviour and Conservation
 
 ## Software and package dependencies
