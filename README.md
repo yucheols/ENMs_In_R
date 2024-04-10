@@ -20,3 +20,18 @@ ENMs in R hands-on workshop @NJFU Lab. of Animal Behaviour and Conservation
 - pals (version 1.8)
 - caret (version 6.0.93)
 
+## Software and package installation
+- R installation: https://cran.r-project.org/bin/windows/base/
+
+- RStudio installation: https://posit.co/download/rstudio-desktop/
+
+- Installation of packages hosted on CRAN
+```r
+pkg.list <- c('SDMtune', 'ENMeval', 'dismo', 'plyr', 'dplyr', 'readr', 'MASS', 'raster', 'terra', 'ggplot2', 'rasterVis', 'sf', 'pals', 'caret')
+
+install.packages(pkg.list) 
+```
+
+- Installation of packages not hosted on CRAN
+
+
