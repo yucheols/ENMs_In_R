@@ -33,5 +33,14 @@ install.packages(pkg.list)
 ```
 
 - Installation of packages not hosted on CRAN
+```r
+install.packages('devtools')
+
+## megaSDM
+devtools::install_github("brshipley/megaSDM", build_vignettes = TRUE)
+
+## humboldt
+devtools::install_github("jasonleebrown/humboldt")
+```
 
 
