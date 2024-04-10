@@ -9,6 +9,9 @@
 
 
 #######################################################  The workflow starts here  ######################################################
+## set random seed for reproducibility
+set.seed(1234)
+
 ## load packages
 library(terra)
 library(raster)

@@ -1,6 +1,11 @@
 #######  bias correction
 # be sure to use the raster package here instead of terra == this is because of the use of "OccurrenceCollection" function 
 # in the megaSDM package
+
+## set random seed for reproducibility
+set.seed(1234)
+
+## load packages
 library(raster)
 library(MASS)
 library(megaSDM)
