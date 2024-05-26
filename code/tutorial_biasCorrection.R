@@ -5,6 +5,10 @@
 ## set random seed for reproducibility
 set.seed(1234)
 
+## clear working environment before starting
+rm(list = ls(all.names = T))
+gc()
+
 ## load packages
 library(raster)
 library(MASS)
