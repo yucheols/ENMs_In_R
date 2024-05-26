@@ -1,7 +1,10 @@
-# ENMs in R hands-on practical session: Tutorial 2
-#### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Republic of Korea)
-28 Feb 2024
+# ENMs in R hands-on practical session: Tutorial 1
+#### by Yucheol Shin (Richard Gilder Graduate School, American Museum of Natural History, USA)
+
+1st installment 28 Feb 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
+
+2nd installment
 
 ## Part 0. Setting up the working directory
 Before diving in, we need to setup an environment to run the codes.
