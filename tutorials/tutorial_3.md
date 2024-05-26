@@ -1,7 +1,10 @@
-# ENMs in R hands-on practical session: Tutorial 3
-#### by Yucheol Shin (Department of Biological Sciences, Kangwon National University, Republic of Korea)
-29 Feb 2024
+# ENMs in R hands-on practical session: Tutorial 1
+#### by Yucheol Shin (Richard Gilder Graduate School, American Museum of Natural History, USA)
+
+1st installment 28 Feb 2024
 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University
+
+2nd installment
 
 ### Using target-group background sampling to compensate for the spatial sampling bias of occurrence points.
 
