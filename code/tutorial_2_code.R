@@ -282,8 +282,8 @@ writeRaster(pred, 'output_rast/pred.tif', overwrite = T)
 # for our initial layer prep.
 
 # Here, I will just import the projection layers I already prepared to save time
-proj.envs <- raster::stack(list.files(path = 'proj_envs', pattern = '.tif$', full.names = T))
-names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elev', 'mixed_other', 'slope')
+proj.envs <- raster::stack(list.files(path = 'proj_envs/subset', pattern = '.tif$', full.names = T))
+names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elevation', 'mixed_other', 'slope')
 
 plot(proj.envs[[1]])
 
@@ -334,6 +334,7 @@ gplot(mess$mess) +
                        na.value = 'transparent',
                        name = 'MESS',
                        breaks = c(-10, -260),
-                       labels = c('Low', 'High')) +
+                       labels = c('Low', 'High'),
+                       trans = 'reverse') +
   xlab('Long') + ylab('Lat')
   

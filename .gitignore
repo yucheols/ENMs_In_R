@@ -63,4 +63,4 @@ misc/
 models/
 proj_envs/
 GUI_run/
-codes/proj_env_prep.R
+code/proj_env_prep.R
