@@ -24,6 +24,6 @@ proj_envs <- raster::stack(proj_clim, proj_topo, proj_land)
 # export projection layers
 for (i in 1:nlayers(proj_envs)) {
   layer <- proj_envs[[i]]
-  file_name <- paste0('proj_envs/', names(proj_envs)[i], '.tif')
+  file_name <- paste0('proj_envs/', names(proj_envs)[i], '.bil')
   writeRaster(layer, filename = file_name, overwrite = T)
 }
