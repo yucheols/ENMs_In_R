@@ -133,7 +133,7 @@ dimensions : 1188, 811, 963468, 7  (nrow, ncol, ncell, nlayers)
 resolution : 0.008333333, 0.008333333  (x, y)
 extent     : 124.1833, 130.9417, 33.10833, 43.00833  (xmin, xmax, ymin, ymax)
 crs        : +proj=longlat +datum=WGS84 +no_defs 
-names      :      bio15,      bio18,       bio2,       bio3,       elev,      slope, mixed_other 
+names      :      bio15,      bio18,       bio2,       bio3,  elevation,      slope, mixed_other 
 min values :   25.80457,  139.00000,    1.00000,   16.27838,  -26.00000,    0.00000,     0.00000 
 max values :  111.65259,  987.00000,   14.25000,  100.00000, 2503.50000,   37.96877,   100.00000 
 ```
