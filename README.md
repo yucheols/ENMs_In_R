@@ -1,8 +1,8 @@
 # Ecological niche modeling in R
 ### ENMs in R hands-on workshop 
-- 1st installment: @ Lab. of Animal Behaviour and Conservation, Nanjing Forestry University, China
-- 2nd installment: @ Yanbian University, China
-- 3rd installment: TBD
+1st installment: 28 Feb 2024 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University, China
+2nd installment: 13 Jun 2024 @ Yanbian University, China
+3rd installment: TBD
 
 ## Software and package dependencies
 - R (version 4.2.2)
