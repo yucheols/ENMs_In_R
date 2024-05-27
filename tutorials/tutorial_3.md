@@ -38,8 +38,10 @@ Sys.setlocale("LC_CTYPE", ".1251")
 Sys.getlocale()
 ```
 
-Make a list of species as an input for the megaSDM function.
+Make a list of species as an input for the megaSDM function. And let's load environmental data that will serve as the geographic extent of occurrence collection.
+
 ```r
+# make a list of species as an input for the megaSDM function
 spplist <- c('Bombina orientalis', 
              'Bufo sachalinensis',
              'Bufo stejnegeri',
@@ -64,6 +66,9 @@ spplist <- c('Bombina orientalis',
              'Rana uenoi',
              'Rana coreana',
              'Rana huanrenensis')
+
+## load envs
+envs <- raster::stack(list.files(path = 'env_processed', pattern = '.bil$', full.names = T))
 ```
 
 Collect occurrences.
