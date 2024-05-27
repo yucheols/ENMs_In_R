@@ -226,8 +226,7 @@ ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
 Now we have all the data prepared to fit our niche models! Since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package. First we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class, and then use the "prepareSWD()" to format the data for modeling.
 
 ```r
-envs <- rast(envs)
-sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
+sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = terra::rast(envs), p = occs, a = bg, verbose = T)
 ```
 
 Now let's build a default MaxEnt model that can be carried downstream 
