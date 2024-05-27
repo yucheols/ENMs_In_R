@@ -159,7 +159,7 @@ head(occs)
 
 Now let's spatially thin the occurrence points. We can use the internal SDMtune function "thinData()", but this method matches the thinning distance to the pixel size of input raster layers. So, we may want to have more freedom with the selection of thinning distance. For that we can use the "humboldt.occ.rarefy()" function in the humboldt package. Also check out the "spThin" package.
 
-Since our raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data to 215 point. We will thin the data first using the humboldt function and then remove NAs (points falling on the pixels with no data values) using the thinData function of SDMtune.
+Since our raw occurrence has > 600 occurrence points, lets try 10km thinning distance. This will thin down our data to 220 points. Note that this number could vary depending on when exactly you download the dataset. We will thin the data first using the humboldt function and then remove NAs (points falling on the pixels with no data values) using the thinData function of SDMtune.
 
 ```r
 occs <- humboldt::humboldt.occ.rarefy(in.pts = occs, colxy = 2:3, rarefy.dist = 10, rarefy.units = 'km', run.silent.rar = F)
