@@ -330,7 +330,7 @@ plot(mess$mess)
 gplot(mess$mess) +
   geom_tile(aes(fill = value)) +
   coord_equal() +
-  scale_fill_gradientn(colors = as.vector(ocean.thermal(22)),
+  scale_fill_gradientn(colors = rev(as.vector(ocean.thermal(22))),
                        na.value = 'transparent',
                        name = 'MESS',
                        breaks = c(-10, -260),
