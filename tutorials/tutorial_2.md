@@ -212,7 +212,8 @@ Now, let's look at the fold assignments for the occurrence data:
 ```r
 ENMeval::evalplot.grps(envs = envs, pts = occs, pts.grp = cvfolds$occs.grp)
 ```
-![occs_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/afce9da0-50ed-401d-90d4-397d293be20c)
+![occs_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/5535a034-a36e-4ea7-8d04-740cc0f257a7)
+
 
 And now for the background data:
 ```r
@@ -280,15 +281,15 @@ var.imp <- maxentVarImp(opt.mod.obj)
 Printing this object in the console returns the variable importance based on permutation importance and percent contribution.
 
 ```r 
-> var.imp
+print(var.imp)
      Variable Percent_contribution Permutation_importance
-1        bio2             25.53339               11.98069
-2       bio15             19.74619               35.46223
-3 mixed_other             17.36491                5.53348
-4       bio18             14.70462               23.44598
-5        elev             11.41267                5.52532
-6        bio3              6.83981               16.49508
-7       slope              4.39842                1.55721
+1        bio2             26.93911               11.43156
+2       bio15             18.67193               37.38540
+3 mixed_other             18.23126                4.96671
+4       bio18             14.25700               20.52207
+5   elevation              9.80706                6.67403
+6        bio3              6.37591               15.40458
+7       slope              5.71771                3.61569
 ```
 
 ## Part 6. Response curves
