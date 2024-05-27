@@ -74,7 +74,7 @@ plot(envs[[1]])
 ### optional ::: you can choose to export the processed layers
 for (i in 1:nlayers(envs)) {
   layer <- envs[[i]]
-  file_name <- paste0('env_processed/', names(envs)[i], '.tif')
+  file_name <- paste0('env_processed/', names(envs)[i], '.bil')
   writeRaster(layer, filename = file_name, overwrite = T)
 }
 
