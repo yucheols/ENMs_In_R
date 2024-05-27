@@ -419,7 +419,7 @@ writeRaster(pred, 'output_rast/pred.tif')
 We will spatially project our fitted model to Japan. Let's first import the projection layers. You can prepare the projection layers following the same steps we went through for our initial layer prep. Here, I will just import the projection layers I already prepared to save time.
 
 ```r
-proj.envs <- raster::stack(list.files(path = 'proj_envs', pattern = '.tif$', full.names = T))
+proj.envs <- raster::stack(list.files(path = 'proj_envs/subset', pattern = '.tif$', full.names = T))
 names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elev', 'mixed_other', 'slope')
 
 plot(proj.envs[[1]])
@@ -436,7 +436,8 @@ plot(spat.proj)
 ```
 
 
-![proj](https://github.com/yucheols/ENMs_In_R/assets/85914125/801b0272-45d7-4df7-a3f4-1351a6863fa2)
+![proj](https://github.com/yucheols/ENMs_In_R/assets/85914125/0c9a7296-99cd-4159-be0d-27ae91e69ab4)
+
 
 We can also do a ggplot-style plot:
 ```r
@@ -449,7 +450,8 @@ gplot(spat.proj) +
   xlab('Long') + ylab('Lat') +
   theme_dark()
 ```
-![proj_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/d8c2d744-e18c-4eda-ba65-ac0cff09f501)
+![proj_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/6c5a7756-473c-45e6-beb0-b8b8338f70b5)
+
 
 Since we are predicting the model to a different area than used to train our model, there might be some extrapolation happening with our prediction. When extrapolation happens, this essentially means that the model is predicting to the values outside the range of values of the original data. Habitat suitability predicted in areas with high extrapolation should be interpreted with caution. But how do we assess extrapolation risk? one way to do it is by calculating MESS (Multivariate Environmental Similarity Surface). This can be done using the dismo package.
 
@@ -472,14 +474,16 @@ Let's plot the MESS raster. You need the pals package loaded to be able to use t
 gplot(mess$mess) +
   geom_tile(aes(fill = value)) +
   coord_equal() +
-  scale_fill_gradientn(colors = as.vector(ocean.thermal(22)),
+  scale_fill_gradientn(colors = rev(as.vector(ocean.thermal(22))),
                        na.value = 'transparent',
                        name = 'MESS',
                        breaks = c(-10, -260),
-                       labels = c('Low', 'High')) +
+                       labels = c('Low', 'High'),
+                       trans = 'reverse') +
   xlab('Long') + ylab('Lat')
 ```
 The output looks like this.
 
 
-![MESS](https://github.com/yucheols/ENMs_In_R/assets/85914125/ed949d57-b4fb-4b9d-9795-592f6895d05c)
+![MESS](https://github.com/yucheols/ENMs_In_R/assets/85914125/cbfa46b7-1723-4daf-9abc-999adf345436)
+
