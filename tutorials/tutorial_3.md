@@ -163,10 +163,7 @@ points(bg, col = 'blue')
 plot(envs[[1]], main = 'Bias-corrected', axes = F, legend = F)
 points(bg2, col = 'blue')
 ```
-![compareBg](https://github.com/yucheols/ENMs_In_R/assets/85914125/bd9d129c-0661-4615-b6fb-6d926fae4982)
-
-
-
+![compareBG](https://github.com/yucheols/ENMs_In_R/assets/85914125/60e9372a-2d8a-4800-85b4-84a9fd2e9c80)
 
 Now we will fit a MaxEnt model with the same feature and regularization as the model we've made in the previous tutorial. That model was made from LQHP features + regularization of 1.
 
