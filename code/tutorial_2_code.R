@@ -153,12 +153,11 @@ ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
 #####  PART 5 ::: Model fitting  #####
 # Now we have all the data prepared to fit our niche models! 
 # since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package
-# first we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class
+# first we will input our layers (which is currently a RasterStack object) into a terra SpatRaster class 
 head(occs)
 head(bg)
 
-envs <- rast(envs)
-sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
+sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = terra::rast(envs), p = occs, a = bg, verbose = T)
 
 # now let's build a default MaxEnt model that can be carried downstream 
 def.mod <- SDMtune::train(method = 'Maxent', data = sp.data, folds = cvfolds, progress = T, iter = 5000, type = 'cloglog')
@@ -247,7 +246,7 @@ resp.data %>%
 
 #####  PART 7 ::: model prediction  #####
 # now that we have our fitted MaxEnt model, we can now make landscape predictions!
-pred <- SDMtune::predict(object = opt.mod.obj, data = envs, type = 'cloglog', clamp = T, progress = T) %>% raster()
+pred <- SDMtune::predict(object = opt.mod.obj, data = terra::rast(envs), type = 'cloglog', clamp = T, progress = T) %>% raster()
 plot(pred)
 
 # let's make a neat plot in the style of ggplot2. We will use the same default color scheme called the "terrain.colors". 

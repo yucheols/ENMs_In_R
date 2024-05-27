@@ -5,10 +5,6 @@
 ## set random seed for reproducibility
 set.seed(1234)
 
-## clear working environment before starting
-rm(list = ls(all.names = T))
-gc()
-
 ## load packages
 library(raster)
 library(MASS)
@@ -66,6 +62,7 @@ spplist <- c('Bombina orientalis',
              'Rana coreana',
              'Rana huanrenensis')
 
+
 ## collect occurrences
 targ.pts <- OccurrenceCollection(spplist = spplist,
                                  output = 'bg',
@@ -108,15 +105,18 @@ bg2 <- xyFromCell(bias.layer,
                   sample(which(!is.na(values(subset(envs, 1)))), 10000,
                          prob = values(bias.layer)[!is.na(values(subset(envs, 1)))])) %>% as.data.frame()
 
-colnames(bg2) = colnames(occs)
+colnames(bg2) = colnames(occs[, c(2,3)])
 head(bg2)
 
 ## Let's see how the background selection has changed compared to the random background
+# partition the plotting pane
 par(mfrow = c(1,2))
 
+# random bg
 plot(envs[[1]], main = 'Random', axes = F, legend = F)
 points(bg, col = 'blue')
 
+# target group bg
 plot(envs[[1]], main = 'Bias-corrected', axes = F, legend = F)
 points(bg2, col = 'blue')
 
