@@ -226,8 +226,7 @@ ENMeval::evalplot.grps(envs = envs, pts = bg, pts.grp = cvfolds$bg.grp)
 Now we have all the data prepared to fit our niche models! Since we are using SDMtune, we need to format our data into a suitable format (SWD) recognized by the package. First we will convert our layers (which is currently a RasterStack object) into a terra SpatRaster class, and then use the "prepareSWD()" to format the data for modeling.
 
 ```r
-envs <- rast(envs)
-sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = envs, p = occs, a = bg, verbose = T)
+sp.data <- prepareSWD(species = 'Bufo stejnegeri', env = terra::rast(envs), p = occs, a = bg, verbose = T)
 ```
 
 Now let's build a default MaxEnt model that can be carried downstream 
@@ -419,8 +418,8 @@ writeRaster(pred, 'output_rast/pred.tif')
 We will spatially project our fitted model to Japan. Let's first import the projection layers. You can prepare the projection layers following the same steps we went through for our initial layer prep. Here, I will just import the projection layers I already prepared to save time.
 
 ```r
-proj.envs <- raster::stack(list.files(path = 'proj_envs/subset', pattern = '.tif$', full.names = T))
-names(proj.envs) = c('bio15', 'bio18', 'bio2', 'bio3', 'elev', 'mixed_other', 'slope')
+proj.envs <- raster::stack(list.files(path = 'proj_envs', pattern = '.bil$', full.names = T))
+proj.envs <- raster::stack(subset(proj.envs, c('bio15', 'bio18', 'bio2', 'bio3', 'elevation', 'mixed_other', 'slope')))   
 
 plot(proj.envs[[1]])
 ```
