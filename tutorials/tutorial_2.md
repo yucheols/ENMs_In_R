@@ -355,7 +355,8 @@ resp.data %>%
 
 Running the code above will produce a plot that looks loke this:
 
-![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/ee59712a-b27d-4a49-b811-dbb60da4b78a)
+![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/a6b41399-a5b3-4ab8-b14e-bb46a439a10f)
+
 
 
 ## Part 7. Model prediction
