@@ -20,11 +20,30 @@ library(rasterVis)
 library(ggplot2)
 ```
 
-Before going any further, let's check the data we are recycling from the previous tutorial.
+Before going any further, let's load the data we are recycling from the previous tutorial.
 ```r
+# envs
+envs <- raster::stack(list.files(path = 'env_processed', pattern = '.bil$', full.names = T))
+envs <- raster::stack(subset(envs, c('bio2', 'bio3', 'bio15', 'bio18', 'elevation', 'mixed_other', 'slope')))
 print(envs)
-print(occs)
+
+# poly
+poly <- sf::st_read('poly/kor_mer.shp')
 print(poly)
+
+# thinned occs
+occs <- read.csv('occs/occs_thinned.csv')
+occs$X <- NULL
+head(occs)
+
+# random bg
+bg <- read.csv('bg/bg_sets/random.csv')
+bg$X <- NULL
+head(bg)
+
+# prediction based on random bg
+pred <- raster('output_rast/pred.tif')
+print(pred)
 ```
 
 Let's collect occurrence points for our "target group". Since B. stejnegeri is an amphibian, we will use the total amphibian occurrence points recorded from the Korean Peninsula. This will serve as a proxy of the overall sampling effort for amphibians across the Korean Peninsula.
@@ -133,11 +152,14 @@ head(bg2)
 
 Let's see how the background selection has changed compared to the random background.
 ```r
+# partition the plotting pane
 par(mfrow = c(1,2))
 
+# random bg
 plot(envs[[1]], main = 'Random', axes = F, legend = F)
 points(bg, col = 'blue')
 
+# target group bg
 plot(envs[[1]], main = 'Bias-corrected', axes = F, legend = F)
 points(bg2, col = 'blue')
 ```
