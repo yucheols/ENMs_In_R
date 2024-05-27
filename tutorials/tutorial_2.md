@@ -11,7 +11,7 @@ Before diving in, we need to setup an environment to run the codes.
 1) First, make sure to have both R and RStudio installed in your laptop.
 2) Open RStudio and navigate to "File > New Project"
 3) Select "New Directory > New Project"
-4) Set the project name to "NJFU_ENMs_Workshop_2024"
+4) Set the project name to "ENMs_Workshop_2024"
 5) Now you will be working within this directory for this workshop. 
 
 
@@ -212,7 +212,8 @@ Now, let's look at the fold assignments for the occurrence data:
 ```r
 ENMeval::evalplot.grps(envs = envs, pts = occs, pts.grp = cvfolds$occs.grp)
 ```
-![occs_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/afce9da0-50ed-401d-90d4-397d293be20c)
+![occs_folds](https://github.com/yucheols/ENMs_In_R/assets/85914125/5535a034-a36e-4ea7-8d04-740cc0f257a7)
+
 
 And now for the background data:
 ```r
@@ -280,15 +281,15 @@ var.imp <- maxentVarImp(opt.mod.obj)
 Printing this object in the console returns the variable importance based on permutation importance and percent contribution.
 
 ```r 
-> var.imp
+print(var.imp)
      Variable Percent_contribution Permutation_importance
-1        bio2             25.53339               11.98069
-2       bio15             19.74619               35.46223
-3 mixed_other             17.36491                5.53348
-4       bio18             14.70462               23.44598
-5        elev             11.41267                5.52532
-6        bio3              6.83981               16.49508
-7       slope              4.39842                1.55721
+1        bio2             26.93911               11.43156
+2       bio15             18.67193               37.38540
+3 mixed_other             18.23126                4.96671
+4       bio18             14.25700               20.52207
+5   elevation              9.80706                6.67403
+6        bio3              6.37591               15.40458
+7       slope              5.71771                3.61569
 ```
 
 ## Part 6. Response curves
@@ -354,7 +355,8 @@ resp.data %>%
 
 Running the code above will produce a plot that looks loke this:
 
-![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/ee59712a-b27d-4a49-b811-dbb60da4b78a)
+![response](https://github.com/yucheols/ENMs_In_R/assets/85914125/a6b41399-a5b3-4ab8-b14e-bb46a439a10f)
+
 
 
 ## Part 7. Model prediction
@@ -367,7 +369,8 @@ plot(pred)
 
 
 
-![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/538a9b48-5a2b-4f6f-b820-30d1b39cae15)
+![pred](https://github.com/yucheols/ENMs_In_R/assets/85914125/c1a8b14d-de54-42bd-b4bd-3ff7eb71333f)
+
 
 Let's look at this model closely and take a note here. I've mentioned in Tutorial 1 that B. stejnegeri is found across northeastern China and the Korean Peninsula. But in our output model, we see that the predicted habitat suitability is almost zero across much of D.P.R Korea. Since we have very little knowledge of herpetofauna for that country, one might argue this is how it should be: that the habitat suitability of B. stejnegeri in D.P.R. Korea is very low. However, this is hihgly unlikely based on multiple lines of evidence (e.g. distribution of mountain ranges, habitat types, available literature, etc). Therefore we may suspect that the prediction is in fact biased by a strong spatial sampling bias of occurrence points toward R. Korea. In turn, this means that our landscape predition is a representation of spatial sampling intensity instead of habitat suitability. This outcome is NOT the one we want. In the next tutorial, we will explore a way to compensate for such sampling bias. But here, we will just use this model to get a general idea of how the ENM workflow is organized.
 
@@ -386,7 +389,8 @@ gplot(pred) +
 
 This will produce a figure that looks like this:
 
-![pred_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/7a1642a0-eff0-4235-afbb-ff79ac1b75b1)
+![pred_gg](https://github.com/yucheols/ENMs_In_R/assets/85914125/bde03dd6-8d7c-414a-8c73-ff559ca8b73e)
+
 
 
 You can apply a different color palette. For example:
@@ -401,7 +405,8 @@ gplot(pred) +
   theme_dark()
 ```
 
-![pred_gg2](https://github.com/yucheols/ENMs_In_R/assets/85914125/9bea1af9-c121-45ab-8f1c-3614031f44b4)
+![pred_gg2](https://github.com/yucheols/ENMs_In_R/assets/85914125/457b1106-0f2d-4fcc-9873-db20aa46c242)
+
 
 
 
