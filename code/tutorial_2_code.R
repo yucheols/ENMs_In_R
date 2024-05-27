@@ -56,6 +56,8 @@ topo <- raster::stack(list.files(path = 'topo', pattern = '.tif$', full.names = 
 topo <- crop(topo, extent(poly))
 topo <- mask(topo, poly)
 
+names(topo) = c('elevation', 'slope')  # rename variable names to something shorter
+
 # land cover
 land <- raster('land/mixed_other.tif')
 land <- crop(land, extent(poly))
