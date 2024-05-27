@@ -11,7 +11,7 @@ Before diving in, we need to setup an environment to run the codes.
 1) First, make sure to have both R and RStudio installed in your laptop.
 2) Open RStudio and navigate to "File > New Project"
 3) Select "New Directory > New Project"
-4) Set the project name to "NJFU_ENMs_Workshop_2024"
+4) Set the project name to "ENMs_Workshop_2024"
 5) Now you will be working within this directory for this workshop. 
 
 
