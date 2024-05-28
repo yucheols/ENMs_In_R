@@ -3,7 +3,7 @@
 
 - 1st installment: 28 Feb 2024 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University, China
 - 2nd installment: 13 Jun 2024 @ Yanbian University, China
-- 3rd installment: TBD
+- 3rd installment: Lab. of Herpetology, Kangwon National University, South Korea. Dates TBD
 
 ### Using target-group background sampling to compensate for the spatial sampling bias of occurrence points.
 
