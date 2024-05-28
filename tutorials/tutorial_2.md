@@ -3,7 +3,7 @@
 
 - 1st installment: 28 Feb 2024 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University, China
 - 2nd installment: 13 Jun 2024 @ Yanbian University, China
-- 3rd installment: TBD
+- 3rd installment: Lab. of Herpetology, Kangwon National University, South Korea. Dates TBD
   
 ## Part 0. Setting up the working directory
 Before diving in, we need to setup an environment to run the codes.
