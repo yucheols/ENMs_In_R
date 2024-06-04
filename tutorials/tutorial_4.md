@@ -1,4 +1,4 @@
-# ENMs in R hands-on practical session: Tutorial 3
+# ENMs in R hands-on practical session: Tutorial 4
 #### by Yucheol Shin (PhD student, Richard Gilder Graduate School, American Museum of Natural History, USA)
 
 - 1st installment: 28 Feb 2024 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University, China
