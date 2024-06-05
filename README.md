@@ -22,6 +22,7 @@
 - sf (version 1.0.14)
 - pals (version 1.8)
 - caret (version 6.0.93)
+- ENMwrap (version 1.0.0)
 
 ## Software and package installation
 - R installation: https://cran.r-project.org/bin/windows/base/
