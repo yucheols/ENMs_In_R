@@ -45,6 +45,9 @@ devtools::install_github("brshipley/megaSDM", build_vignettes = TRUE)
 
 ## install humboldt
 devtools::install_github("jasonleebrown/humboldt")
+
+## install ENMwrap
+devtools::install_github("yucheols/ENMwrap")
 ```
 
 
