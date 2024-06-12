@@ -5,7 +5,7 @@
 - 2nd installment: 13 Jun 2024 @ Yanbian University, China
 - 3rd installment: Lab. of Herpetology, Kangwon National University, South Korea. Dates TBD
 
-### Generating ENMs for multiple species at once using the ENMwrap pipeline
+## Generating ENMs for multiple species at once using the ENMwrap pipeline
 In previous tutorials, we learned how to implement a single-species ecological niche modeling. However, sometimes we need to simultaneously generate ecological niche models for many different species.
 
 ## Part 0. Prepare the working environment and load packages
@@ -27,6 +27,7 @@ library(readr)
 set.seed(333)
 ```
 
+## Part 1. Prepare environmental data
 ```r
 # mask polygon == Republic of Korea
 poly <- terra::vect('poly/KOR_adm0.shp')
@@ -42,6 +43,8 @@ envs <- terra::mask(envs, poly) %>% raster::stack()
 raster::plot(envs[[1]])
 ```
 
+We can export the processed layers for easier access later on if we want. Note that I'm exporting the files in .bil format to retain the layer names.
+
 ```r
 # export processed
 for (i in 1:nlayers(envs)) {
@@ -51,11 +54,8 @@ for (i in 1:nlayers(envs)) {
 }
 ```
 
-
+## Part 2. Collect occurrence data
 ```r
-# make a list of species for draft modeling
-# note B.gargarizans is used for B.sachalinensis and, D.immaculatus is used for D.suweonensis....just to follow the nomenclature recognized by the package
-# name matching is required for data filtering and downstream model testing. If the names dont match the model testing step will throw errors
 spplist <- c('Bufo stejnegeri',
              'Bufo gargarizans',
              'Glandirana emeljanovi',
@@ -70,6 +70,8 @@ spplist <- c('Bufo stejnegeri',
 #                     output = 'occs_test_workflow/raw',
 #                     trainingarea = envs[[1]])
 ```
+
+Once we collect the occurrence points for each species, we can import all of the .csv occurrence files and compile them into a single dataframe. We can then separate this dataframe by species by applying the "filter" function of the *dplyr* package. We will also select longitude and latitdue columns only. We will then put the data for each species into a list object that we will call "occs_list". This list object will be fed to the "occs_thinner" function of the *ENMwrap* package.
 
 ```r
 # compile raw data
