@@ -8,6 +8,7 @@
 ### Generating ENMs for multiple species at once using the ENMwrap pipeline
 In previous tutorials, we learned how to implement a single-species ecological niche modeling. However, sometimes we need to simultaneously generate ecological niche models for many different species.
 
+## Part 0. Prepare the working environment and load packages
 ```r
 # clear working environment
 rm(list = ls(all.names = T))
