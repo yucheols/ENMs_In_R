@@ -54,7 +54,7 @@ for (i in 1:nlayers(envs)) {
 }
 ```
 
-## Part 2. Collect occurrence data
+## Part 2. Collect and process occurrence data
 ```r
 spplist <- c('Bufo stejnegeri',
              'Bufo gargarizans',
@@ -102,6 +102,8 @@ occs_list <- list(occs_all %>% filter(species == spplist[[1]]) %>% select(2,3),
                   occs_all %>% filter(species == spplist[[17]]) %>% select(2,3))
 ```
 
+We will now spatially thin our occurrence points. The "occs_thinner" function borrows the "thinData" function of the *SDMtune* package. By default, the thinning distance will be matched to the pixel resolution of the input environmental variables.
+
 ```r
 # thin
 thin <- occs_thinner(occs_list = occs_list, envs = envs[[1]], long = 'long', lat = 'lat', spp_list = spplist)
@@ -113,14 +115,15 @@ for (i in 1:length(thin)) {
 }
 ```
 
+## Part 3. Get background data
 ```r
-##### part 3 ::: get background data ---------------------------------------------------
 # get random background points
 bg <- randomPoints(mask = envs[[1]], n = 10000) %>% as.data.frame()
 colnames(bg) = c('long', 'lat')
 head(bg)
 ```
 
+## Part 4. Select environmental variables
 ```r
 ##### part 4 ::: select environmental variables ---------------------------------------------------
 # may need to revise this part later on to better reflect species-specific climatic requirements....but this should be enough for now to test the workflow
@@ -142,9 +145,8 @@ envs.subs <- raster::dropLayer(envs, testcor)
 print(envs.subs)
 ```
 
+## Part 5. Test candidate models per species
 ```r
-##### part 5 ::: test candidate models per species  ---------------------------------------------------
-
 # fit models per species == may need to increase the feature class (fc) and regularization (rm) combinations for actual application
 # for the code below (testing two features and two regularizations), it takes aproximately 2~3 minutes per species
 testsp <- test_multisp(taxon.list = spplist,
@@ -162,10 +164,10 @@ print(testsp$models)
 print(testsp$preds)
 print(testsp$contrib)
 print(testsp$taxon.list)
+```
 
-# plot predictions
-# should fix the package code at some point to remove the rgdal and raster dependencies....so that I can directly use the SpatVector object loaded earlier....
-# but I dont have enough time now so this will have to do
+## Part 6. Plot predictions
+```r
 rok <- rgdal::readOGR('poly/KOR_adm0.shp')
 plot_preds(preds = testsp$preds, poly = rok, pred.names = spplist)
 ```
