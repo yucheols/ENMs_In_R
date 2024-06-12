@@ -6,9 +6,10 @@
 - 3rd installment: Lab. of Herpetology, Kangwon National University, South Korea. Dates TBD
 
 ## Generating ENMs for multiple species at once using the ENMwrap pipeline
-In previous tutorials, we learned how to implement a single-species ecological niche modeling. However, sometimes we need to simultaneously generate ecological niche models for many different species.
+In previous tutorials, we learned how to implement a single-species ecological niche modeling. However, sometimes we need to simultaneously generate ecological niche models for many different species. So, in this tutorial, we will use the pipeline I have made called *ENMwrap* to fit and predict multiple ecological niche models for several amphibian species found in South Korea.
 
 ## Part 0. Prepare the working environment and load packages
+Before we start, we will clear the working environment and load the packages we need to use.
 ```r
 # clear working environment
 rm(list = ls(all.names = T))
@@ -28,6 +29,8 @@ set.seed(333)
 ```
 
 ## Part 1. Prepare environmental data
+In this tutorial, we will use the 19 bioclimatic variables available from WorldClim. We will use 1-km spatial resolution rasters (= 30 arc-second). We will then mask these global rasters to the geographic boundaries of South Korea. 
+
 ```r
 # mask polygon == Republic of Korea
 poly <- terra::vect('poly/KOR_adm0.shp')
@@ -37,7 +40,7 @@ envs <- terra::rast(list.files(path = 'E:/env layers/worldclim', pattern = '.tif
 names(envs) = c('bio1', 'bio10', 'bio11', 'bio12', 'bio13', 'bio14', 'bio15', 'bio16', 'bio17',
                 'bio18', 'bio19', 'bio2', 'bio3', 'bio4', 'bio5', 'bio6', 'bio7', 'bio8', 'bio9')
 
-# layer masking and processing
+# layer masking
 envs <- terra::crop(envs, terra::ext(poly))
 envs <- terra::mask(envs, poly) %>% raster::stack()
 raster::plot(envs[[1]])
@@ -55,6 +58,8 @@ for (i in 1:nlayers(envs)) {
 ```
 
 ## Part 2. Collect and process occurrence data
+We will use the "OccurrenceCollection" function of the *megaSDM* package to collect occurrence points for several amphibian species found in South Korea. We will first make a list of species we want to model and then provide this list to the function.
+
 ```r
 spplist <- c('Bufo stejnegeri',
              'Bufo gargarizans',
@@ -66,9 +71,9 @@ spplist <- c('Bufo stejnegeri',
              'Rana huanrenensis')
 
 # get data
-#OccurrenceCollection(spplist = spplist,
-#                     output = 'occs_test_workflow/raw',
-#                     trainingarea = envs[[1]])
+OccurrenceCollection(spplist = spplist,
+                     output = 'occs_test_workflow/raw',
+                     trainingarea = envs[[1]])
 ```
 
 Once we collect the occurrence points for each species, we can import all of the .csv occurrence files and compile them into a single dataframe. We can then separate this dataframe by species by applying the "filter" function of the *dplyr* package. We will also select longitude and latitdue columns only. We will then put the data for each species into a list object that we will call "occs_list". This list object will be fed to the "occs_thinner" function of the *ENMwrap* package.
@@ -116,6 +121,7 @@ for (i in 1:length(thin)) {
 ```
 
 ## Part 3. Get background data
+We will randomly sample 10000 background points using the "randomPoints" function of the *dismo* package.
 ```r
 # get random background points
 bg <- randomPoints(mask = envs[[1]], n = 10000) %>% as.data.frame()
@@ -124,10 +130,8 @@ head(bg)
 ```
 
 ## Part 4. Select environmental variables
-```r
-##### part 4 ::: select environmental variables ---------------------------------------------------
-# may need to revise this part later on to better reflect species-specific climatic requirements....but this should be enough for now to test the workflow
 
+```r
 # extract pixel values
 vals <- raster::extract(envs, bg) %>% as.data.frame()
 head(vals)
