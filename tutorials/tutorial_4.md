@@ -48,7 +48,7 @@ for (i in 1:nlayers(envs)) {
   name <- paste0('envs/processed/', names(envs)[i], '.bil')
   writeRaster(r, filename = name, overwrite = T)
 }
-```r
+```
 
 
 ```r
@@ -116,7 +116,7 @@ for (i in 1:length(thin)) {
 bg <- randomPoints(mask = envs[[1]], n = 10000) %>% as.data.frame()
 colnames(bg) = c('long', 'lat')
 head(bg)
-```r
+```
 
 ```r
 ##### part 4 ::: select environmental variables ---------------------------------------------------
@@ -165,5 +165,5 @@ print(testsp$taxon.list)
 # but I dont have enough time now so this will have to do
 rok <- rgdal::readOGR('poly/KOR_adm0.shp')
 plot_preds(preds = testsp$preds, poly = rok, pred.names = spplist)
-```r
+```
 
