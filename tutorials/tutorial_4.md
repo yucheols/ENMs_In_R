@@ -95,16 +95,7 @@ occs_list <- list(occs_all %>% filter(species == spplist[[1]]) %>% select(2,3),
                   occs_all %>% filter(species == spplist[[5]]) %>% select(2,3),
                   occs_all %>% filter(species == spplist[[6]]) %>% select(2,3),
                   occs_all %>% filter(species == spplist[[7]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[8]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[9]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[10]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[11]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[12]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[13]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[14]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[15]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[16]]) %>% select(2,3),
-                  occs_all %>% filter(species == spplist[[17]]) %>% select(2,3))
+                  occs_all %>% filter(species == spplist[[8]]) %>% select(2,3))
 ```
 
 We will now spatially thin our occurrence points. The "occs_thinner" function borrows the "thinData" function of the *SDMtune* package. By default, the thinning distance will be matched to the pixel resolution of the input environmental variables.
