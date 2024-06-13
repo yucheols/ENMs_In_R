@@ -54,11 +54,11 @@ output_fig/
 climate/
 topo/
 land/
-env_processed/
+#env_processed/
 tutorials/
-poly/
-occs/
-bg/
+#poly/
+#occs/
+#bg/
 misc/
 models/
 proj_envs/
