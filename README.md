@@ -2,7 +2,7 @@
 ### ENMs in R hands-on workshop 
 - 1st installment: 28 Feb 2024 @ Lab. of Animal Behaviour and Conservation, Nanjing Forestry University, China
 - 2nd installment: 13 Jun 2024 @ Yanbian University, China
-- 3rd installment: 1 July 2024 @ Lab. of Herpetology, Kangwon National University, South Korea
+- 3rd installment: 1 July 2024 @ Laboratory of Herpetology, Kangwon National University, South Korea
 
 ## Software and package dependencies
 - R (version 4.2.2)
