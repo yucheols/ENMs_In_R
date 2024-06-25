@@ -5,7 +5,7 @@
 - 3rd installment: 1 July 2024 @ Laboratory of Herpetology, Kangwon National University, South Korea
 
 ## Software and package dependencies
-- _R (version 4.2.2)_: Programming language used in these tutorials
+- R (version 4.2.2): Programming language used in these tutorials
 - SDMtune (version 1.3.1): Core niche modeling functions
 - ENMwrap (version 1.0.0): Looper for modeling multiple species
 - ENMeval (version 2.0.4): Generation of cross-validation folds
