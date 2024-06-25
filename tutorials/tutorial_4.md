@@ -3,7 +3,7 @@
 
 - 1st installment: 28 Feb 2024 @ Laboratory of Animal Behaviour and Conservation, Nanjing Forestry University, China
 - 2nd installment: 13 Jun 2024 @ Yanbian University, China
-- 3rd installment: Lab. of Herpetology, Kangwon National University, South Korea. Dates TBD
+- 3rd installment: 1 July 2024 @ Laboratory of Herpetology, Kangwon National University, South Korea
 
 ## Generating ENMs for multiple species at once using the ENMwrap pipeline
 In previous tutorials, we learned how to implement a single-species ecological niche modeling. However, sometimes we need to simultaneously generate ecological niche models for many different species. So, in this tutorial, we will use the pipeline I have made called *ENMwrap* to fit and predict multiple ecological niche models for several amphibian species found in South Korea.
