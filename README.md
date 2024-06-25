@@ -5,24 +5,24 @@
 - 3rd installment: 1 July 2024 @ Laboratory of Herpetology, Kangwon National University, South Korea
 
 ## Software and package dependencies
-- R (version 4.2.2)
-- SDMtune (version 1.3.1)
-- ENMeval (version 2.0.4)
-- megaSDM (version 2.0.0)
-- humboldt (version 1.0.0.420121)
-- dismo (version 1.3.14)
-- plyr (version 1.8.8)
-- dplyr (version 1.1.0)
-- readr (version 2.1.4)
-- MASS (version 7.3.58.2)
-- raster (version 3.6.14)
-- terra (version 1.7.65)
-- ggplot2 (version 3.4.1)
-- rasterVis (version 0.51.5)
-- sf (version 1.0.14)
-- pals (version 1.8)
-- caret (version 6.0.93)
-- ENMwrap (version 1.0.0)
+- R (version 4.2.2): Programming language used in these tutorials
+- SDMtune (version 1.3.1): Core niche modeling functions
+- ENMwrap (version 1.0.0): Looper for modeling multiple species
+- ENMeval (version 2.0.4): Generation of cross-validation folds
+- megaSDM (version 2.0.0): Occurrence data collection
+- humboldt (version 1.0.0.420121): Occurrence data thinning
+- dismo (version 1.3.14): Niche modeling functions
+- plyr (version 1.8.8): Data processing
+- dplyr (version 1.1.0): Data processing
+- readr (version 2.1.4): Data processing
+- MASS (version 7.3.58.2): Generation of a density raster 
+- raster (version 3.6.14): GIS and raster data processing
+- terra (version 1.7.65): GIS and raster data processing
+- sf (version 1.0.14): GIS data processing
+- ggplot2 (version 3.4.1): General data visualization
+- rasterVis (version 0.51.5): Raster data visualization
+- pals (version 1.8): Expansion of the color palette for ggplot2
+- caret (version 6.0.93): Correlation test
 
 ## Software and package installation
 - R installation: https://cran.r-project.org/bin/windows/base/
