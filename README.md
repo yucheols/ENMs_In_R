@@ -52,9 +52,9 @@ devtools::install_github("yucheols/ENMwrap")
 ```
 
 ## How to download codes and data
-1) Click the green button named "Code" on the top right part of this repository
+### 1) Click the green button named "Code" on the top right part of this repository
 ![cap1](https://github.com/yucheols/ENMs_In_R/assets/85914125/667bf6f7-ea21-4aa6-b51a-f83e7ff8477c)
 
-2) Click "Download ZIP" to download all the codes and associated data as a .zip file
+### 2) Click "Download ZIP" to download all the codes and associated data as a .zip file
 ![cap2](https://github.com/yucheols/ENMs_In_R/assets/85914125/eaaebabe-cc1e-4cab-8be1-eb81bbb77bba)
 
