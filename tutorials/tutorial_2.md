@@ -413,8 +413,38 @@ If you want to make the figures using dedicated GIS softwares instead of doing i
 ```r
 writeRaster(pred, 'output_rast/pred.tif')
 ```
+## 8. Binary (presence-absence) map
+Depending on the end-use, we maybe interested in producing a presence-absence map for downstream analyses. Let's first get our MaxEnt threshold values. We will use the "maxentTh" function of the SDMtune package. Note that we need to input our models via the "combineCV" function because our optimal model is of class "SDMmodelCV", whereas the "maxentTh" function takes a model of class "SDMmodel" as input. So, we need to first combine our cross-validation runs using "combineCV".
 
-## 8. Model extrapolation
+```r
+thresh <- maxentTh((combineCV(opt.mod.obj)))
+print(thresh)
+```
+
+We will use the 10 percentile presence threshold for binary transformation. We will use the "ecospat.binary.model" function for this purpose.
+
+```r
+mod.bin <- ecospat.binary.model(Pred = terra::rast(pred), Threshold = thresh[5, ])
+plot(mod.bin)
+```
+
+We can then plot the output the same way we did with the continuous models.
+
+```r
+gplot(mod.bin) +
+  geom_tile(aes(fill = value)) +
+  coord_equal() +
+  scale_fill_gradientn(colors = rev(terrain.colors(1000)),
+                       na.value = NA,
+                       name = 'Suitability') +
+  xlab('Long') + ylab('Lat') +
+  theme_dark()
+```
+
+![binary](https://github.com/yucheols/ENMs_In_R/assets/85914125/988e5fa8-7d81-42d8-9302-51c248524c93)
+
+
+## 9. Model extrapolation
 We will spatially project our fitted model to Japan. Let's first import the projection layers. You can prepare the projection layers following the same steps we went through for our initial layer prep. Here, I will just import the projection layers I already prepared to save time.
 
 ```r
