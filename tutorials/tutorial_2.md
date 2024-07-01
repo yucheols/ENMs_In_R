@@ -12,7 +12,9 @@ Before diving in, we need to setup an environment to run the codes.
 2) Open RStudio and navigate to "File > New Project"
 3) Select "New Directory > New Project"
 4) Set the project name to "ENMs_Workshop_2024"
-5) Now you will be working within this directory for this workshop. 
+5) Now you will be working within this directory for this workshop.
+
+#### But if you download this repository directly, you don't need to go throguh these setup steps because all the codes and data will be in the downloaded repository!
 
 
 ## Part 1. Load packages and prepare environmental data
