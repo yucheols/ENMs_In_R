@@ -9,6 +9,7 @@
 - SDMtune (version 1.3.1)
 - ENMwrap (version 1.0.0)
 - ENMeval (version 2.0.4)
+- ecospat (version 4.0.0)
 - megaSDM (version 2.0.0)
 - humboldt (version 1.0.0.420121)
 - dismo (version 1.3.14)
